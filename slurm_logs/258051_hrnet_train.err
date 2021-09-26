@@ -1,0 +1,2 @@
+slurmstepd: error: *** JOB 258051 ON balrog CANCELLED AT 2021-09-17T10:27:25 ***
+slurmstepd: error: Detected 1 oom-kill event(s) in step 258051.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.

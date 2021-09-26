@@ -1,0 +1,192 @@
+You have the following GPUs: 0,1,2,3
+Starting job 258024 on balrog
+Fri Sep 17 08:26:59 2021       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 440.33.01    Driver Version: 440.33.01    CUDA Version: 10.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  GeForce RTX 208...  Off  | 00000000:1A:00.0 Off |                  N/A |
+| 22%   25C    P8     1W / 250W |      0MiB / 11019MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   1  GeForce RTX 208...  Off  | 00000000:1B:00.0 Off |                  N/A |
+| 22%   27C    P8     2W / 250W |      0MiB / 11019MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   2  GeForce RTX 208...  Off  | 00000000:1C:00.0 Off |                  N/A |
+| 22%   26C    P8    18W / 250W |      0MiB / 11019MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   3  GeForce RTX 208...  Off  | 00000000:1D:00.0 Off |                  N/A |
+| 22%   27C    P8     7W / 250W |      0MiB / 11019MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+Seeding with 304
+Seeding with 304
+Seeding with 304
+Seeding with 304
+=> creating /local_storage/users/hfang/HRNet_SN7/output=> creating /local_storage/users/hfang/HRNet_SN7/output
+
+=> creating /local_storage/users/hfang/HRNet_SN7/output=> creating /local_storage/users/hfang/HRNet_SN7/output
+
+Traceback (most recent call last):
+Traceback (most recent call last):
+Traceback (most recent call last):
+=> creating /local_storage/users/hfang/HRNet_SN7/output/spacenet7/seg_hrnet_w48_512x512_sgd_lr1e-2_wd4e-5_bs_16_epoch70
+  File "tools/train.py", line 323, in <module>
+  File "tools/train.py", line 323, in <module>
+  File "tools/train.py", line 323, in <module>
+=> creating log/spacenet7/seg_hrnet/seg_hrnet_w48_512x512_sgd_lr1e-2_wd4e-5_bs_16_epoch70_2021-09-17-08-27
+    main()
+  File "tools/train.py", line 73, in main
+    main()
+  File "tools/train.py", line 73, in main
+    main()
+  File "tools/train.py", line 73, in main
+    config, args.cfg, 'train')
+  File "/Midgard/home/hfang/temporal_CD/HRNet_SN7/tools/../lib/utils/utils.py", line 78, in create_logger
+    config, args.cfg, 'train')
+  File "/Midgard/home/hfang/temporal_CD/HRNet_SN7/tools/../lib/utils/utils.py", line 78, in create_logger
+    config, args.cfg, 'train')
+  File "/Midgard/home/hfang/temporal_CD/HRNet_SN7/tools/../lib/utils/utils.py", line 78, in create_logger
+Namespace(cfg='experiments/spacenet7/seg_hrnet_w48_512x512_sgd_lr1e-2_wd4e-5_bs_16_epoch70.yaml', local_rank=1, opts=[], seed=304)
+AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: spacenet7
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 2
+  ROOT: /local_storage/datasets/sn7_winner_split/train/
+  TEST_SET: list/val.lst
+  TRAIN_SET: list/train.lst
+DEBUG:
+  DEBUG: False
+  SAVE_BATCH_IMAGES_GT: False
+  SAVE_BATCH_IMAGES_PRED: False
+  SAVE_HEATMAPS_GT: False
+  SAVE_HEATMAPS_PRED: False
+GPUS: (0, 1, 2, 3)
+LOG_DIR: log
+LOSS:
+  BALANCE_WEIGHTS: [1]
+  CLASS_BALANCE: False
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.9
+  USE_OHEM: False
+MODEL:
+  ALIGN_CORNERS: True
+  EXTRA:
+    FINAL_CONV_KERNEL: 1
+    STAGE1:
+      BLOCK: BOTTLENECK
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4]
+      NUM_CHANNELS: [64]
+      NUM_MODULES: 1
+      NUM_RANCHES: 1
+    STAGE2:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4]
+      NUM_BRANCHES: 2
+      NUM_CHANNELS: [48, 96]
+      NUM_MODULES: 1
+    STAGE3:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4]
+      NUM_BRANCHES: 3
+      NUM_CHANNELS: [48, 96, 192]
+      NUM_MODULES: 4
+    STAGE4:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4, 4]
+      NUM_BRANCHES: 4
+      NUM_CHANNELS: [48, 96, 192, 384]
+      NUM_MODULES: 3
+  NAME: seg_hrnet
+  NUM_OUTPUTS: 1
+  OCR:
+    DROPOUT: 0.05
+    KEY_CHANNELS: 256
+    MID_CHANNELS: 512
+    SCALE: 1
+  PRETRAINED: /local_storage/users/hfang/HRNet_SN7/pretrained_models/hrnetv2_w48_imagenet_pretrained.pth
+OUTPUT_DIR: /local_storage/users/hfang/HRNet_SN7/output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+RANK: 0
+TEST:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 1
+  FLIP_TEST: False
+  IMAGE_SIZE: [512, 512]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  NUM_SAMPLES: 200
+  OUTPUT_INDEX: -1
+  SCALE_LIST: [1]
+TRAIN:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 4
+  BEGIN_EPOCH: 0
+  DOWNSAMPLERATE: 1
+  END_EPOCH: 70
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  FREEZE_EPOCHS: -1
+  FREEZE_LAYERS: 
+  IGNORE_LABEL: -1
+  IMAGE_SIZE: [512, 512]
+  LR: 0.01
+  LR_FACTOR: 0.1
+  LR_STEP: [90, 110]
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  NONBACKBONE_KEYWORDS: []
+  NONBACKBONE_MULT: 10
+  NUM_SAMPLES: 0
+  OPTIMIZER: sgd
+  RANDOM_BRIGHTNESS: False
+  RANDOM_BRIGHTNESS_SHIFT_VALUE: 10
+  RESUME: True
+  SCALE_FACTOR: 16
+  SHUFFLE: True
+  WD: 4e-05
+WORKERS: 4
+            root_output_dir.mkdir()root_output_dir.mkdir()root_output_dir.mkdir()
+
+
+  File "/Midgard/home/hfang/miniconda3/envs/solaris/lib/python3.7/pathlib.py", line 1273, in mkdir
+  File "/Midgard/home/hfang/miniconda3/envs/solaris/lib/python3.7/pathlib.py", line 1273, in mkdir
+  File "/Midgard/home/hfang/miniconda3/envs/solaris/lib/python3.7/pathlib.py", line 1273, in mkdir
+        self._accessor.mkdir(self, mode)
+FileExistsError: self._accessor.mkdir(self, mode)
+FileExistsError[Errno 17] File exists: '/local_storage/users/hfang/HRNet_SN7/output'
+: [Errno 17] File exists: '/local_storage/users/hfang/HRNet_SN7/output'
+    self._accessor.mkdir(self, mode)
+FileExistsError: [Errno 17] File exists: '/local_storage/users/hfang/HRNet_SN7/output'
+Traceback (most recent call last):
+  File "/Midgard/home/hfang/miniconda3/envs/solaris/lib/python3.7/runpy.py", line 193, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/Midgard/home/hfang/miniconda3/envs/solaris/lib/python3.7/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/Midgard/home/hfang/miniconda3/envs/solaris/lib/python3.7/site-packages/torch/distributed/launch.py", line 260, in <module>
+    main()
+  File "/Midgard/home/hfang/miniconda3/envs/solaris/lib/python3.7/site-packages/torch/distributed/launch.py", line 256, in main
+    cmd=cmd)
+subprocess.CalledProcessError: Command '['/Midgard/home/hfang/miniconda3/envs/solaris/bin/python', '-u', 'tools/train.py', '--local_rank=3', '--cfg', 'experiments/spacenet7/seg_hrnet_w48_512x512_sgd_lr1e-2_wd4e-5_bs_16_epoch70.yaml']' returned non-zero exit status 1.
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
