@@ -14,7 +14,8 @@ import skimage.io
 from skimage.draw import polygon
 from skimage import measure
 from skimage.segmentation import watershed
-from skimage.feature import peak_local_max
+# from skimage.feature import peak_local_max
+from peak import peak_local_max
 from scipy import ndimage as ndi
 from rasterio import features
 
@@ -139,9 +140,17 @@ def filter_countours(polygons, filter_polygons, margin):
 # def process(npy_list, thres1=0.1, thres2_h1=0.6, thres2_l1=0.4, thres2_h2=0.6, thres2_l2=0.35,
 #             thres3_1=0.3, thres3_s=0.45, thres3_d=0.5, thres3_i=0, thres3_m=0.4,
 #             margin=0, distance = 5, min_area=25.5, polygon_buffer=0):
-
 # finetune the hyperparameters of process function
-def process(npy_list, thres1=0.35, thres2_h1=0.95, thres2_l1=0.75, thres2_h2=0.95, thres2_l2=0.7,
+# finetune1
+# def process(npy_list, thres1=0.35, thres2_h1=0.95, thres2_l1=0.75, thres2_h2=0.95, thres2_l2=0.7,
+#             thres3_1=0.3, thres3_s=0.45, thres3_d=0.5, thres3_i=0, thres3_m=0.4,
+#             margin=0, distance = 5, min_area=25.5, polygon_buffer=0):
+# finetune2
+# def process(npy_list, thres1=0.35, thres2_h1=1.0, thres2_l1=0.75, thres2_h2=1.0, thres2_l2=0.7,
+#             thres3_1=0.3, thres3_s=0.45, thres3_d=0.5, thres3_i=0, thres3_m=0.4,
+#             margin=0, distance = 5, min_area=25.5, polygon_buffer=0):
+# finetune3
+def process(npy_list, thres1=0.35, thres2_h1=1.0, thres2_l1=0.7, thres2_h2=1.0, thres2_l2=0.7,
             thres3_1=0.3, thres3_s=0.45, thres3_d=0.5, thres3_i=0, thres3_m=0.4,
             margin=0, distance = 5, min_area=25.5, polygon_buffer=0):
     npy_list = sorted(npy_list)
