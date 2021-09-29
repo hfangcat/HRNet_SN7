@@ -150,8 +150,40 @@ def filter_countours(polygons, filter_polygons, margin):
 #             thres3_1=0.3, thres3_s=0.45, thres3_d=0.5, thres3_i=0, thres3_m=0.4,
 #             margin=0, distance = 5, min_area=25.5, polygon_buffer=0):
 # finetune3
-def process(npy_list, thres1=0.35, thres2_h1=1.0, thres2_l1=0.7, thres2_h2=1.0, thres2_l2=0.7,
-            thres3_1=0.3, thres3_s=0.45, thres3_d=0.5, thres3_i=0, thres3_m=0.4,
+# def process(npy_list, thres1=0.35, thres2_h1=1.0, thres2_l1=0.7, thres2_h2=1.0, thres2_l2=0.7,
+#             thres3_1=0.3, thres3_s=0.45, thres3_d=0.5, thres3_i=0, thres3_m=0.4,
+#             margin=0, distance = 5, min_area=25.5, polygon_buffer=0):
+# finetune4
+# def process(npy_list, thres1=0.35, thres2_h1=1.0, thres2_l1=0.7, thres2_h2=1.0, thres2_l2=0.7,
+#             thres3_1=0.2, thres3_s=0.45, thres3_d=0.35, thres3_i=0, thres3_m=0.35,
+#             margin=0, distance = 5, min_area=25.5, polygon_buffer=0):
+# finetune5
+# def process(npy_list, thres1=0.35, thres2_h1=1.0, thres2_l1=0.75, thres2_h2=1.0, thres2_l2=0.7,
+#             thres3_1=0.3, thres3_s=0.45, thres3_d=0.6, thres3_i=0, thres3_m=0.4,
+#             margin=0, distance = 5, min_area=25.5, polygon_buffer=0):
+# finetune6
+# def process(npy_list, thres1=0.35, thres2_h1=1.0, thres2_l1=0.75, thres2_h2=1.0, thres2_l2=0.7,
+#             thres3_1=0.3, thres3_s=0.4, thres3_d=0.5, thres3_i=0, thres3_m=0.4,
+#             margin=0, distance = 5, min_area=25.5, polygon_buffer=0):
+# finetune7
+# def process(npy_list, thres1=0.35, thres2_h1=1.0, thres2_l1=0.75, thres2_h2=1.0, thres2_l2=0.7,
+#             thres3_1=0.3, thres3_s=0.5, thres3_d=0.5, thres3_i=0, thres3_m=0.4,
+#             margin=0, distance = 5, min_area=25.5, polygon_buffer=0):
+# finetune8
+# def process(npy_list, thres1=0.35, thres2_h1=1.0, thres2_l1=0.75, thres2_h2=1.0, thres2_l2=0.7,
+#             thres3_1=0.3, thres3_s=0.45, thres3_d=0.7, thres3_i=0, thres3_m=0.4,
+#             margin=0, distance = 5, min_area=25.5, polygon_buffer=0):
+# finetune9 (best)
+# def process(npy_list, thres1=0.35, thres2_h1=1.0, thres2_l1=0.75, thres2_h2=1.0, thres2_l2=0.7,
+#             thres3_1=0.3, thres3_s=0.45, thres3_d=0.65, thres3_i=0, thres3_m=0.4,
+#             margin=0, distance = 5, min_area=25.5, polygon_buffer=0):
+# finetune10
+# def process(npy_list, thres1=0.35, thres2_h1=1.0, thres2_l1=0.75, thres2_h2=1.0, thres2_l2=0.7,
+#             thres3_1=0.3, thres3_s=0.45, thres3_d=0.75, thres3_i=0, thres3_m=0.4,
+#             margin=0, distance = 5, min_area=25.5, polygon_buffer=0):
+# finetune11
+def process(npy_list, thres1=0.35, thres2_h1=1.0, thres2_l1=0.75, thres2_h2=1.0, thres2_l2=0.7,
+            thres3_1=0.35, thres3_s=0.45, thres3_d=0.5, thres3_i=0, thres3_m=0.4,
             margin=0, distance = 5, min_area=25.5, polygon_buffer=0):
     npy_list = sorted(npy_list)
     npy_sum = 0
