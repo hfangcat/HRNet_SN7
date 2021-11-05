@@ -5,8 +5,8 @@
 #SBATCH --constrain=balrog
 #SBATCH --mail-type FAIL
 #SBATCH --mail-user hfang@kth.se
-#SBATCH --output /Midgard/home/hfang/temporal_CD/HRNet_SN7/slurm_logs/%J_hrnet_train.out
-#SBATCH --error  /Midgard/home/hfang/temporal_CD/HRNet_SN7/slurm_logs/%J_hrnet_train.err
+#SBATCH --output /Midgard/home/hfang/temporal_CD/HRNet_SN7/slurm_logs/%J_hrnet_train_paddle.out
+#SBATCH --error  /Midgard/home/hfang/temporal_CD/HRNet_SN7/slurm_logs/%J_hrnet_train_paddle.err
 
 echo "Starting job ${SLURM_JOB_ID} on ${SLURMD_NODENAME}"
 nvidia-smi

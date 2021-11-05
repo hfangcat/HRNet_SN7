@@ -441,6 +441,16 @@ class HighResolutionNet(nn.Module):
                 x_list.append(y_list[i])
         y_list = self.stage3(x_list)
 
+        """
+        Add temporal consistency regularization to the output of third stage
+        """
+        x_tcr_h, x_tcr_w = y_list[0].size(2), y_list[0].size(3)
+        x_tcr1 = F.interpolate(y_list[1], size=(x_tcr_h, x_tcr_w), mode='bilinear', align_corners=ALIGN_CORNERS)
+        x_tcr2 = F.interpolate(y_list[2], size=(x_tcr_h, x_tcr_w), mode='bilinear', align_corners=ALIGN_CORNERS)
+        x_tcr3 = F.interpolate(y_list[3], size=(x_tcr_h, x_tcr_w), mode='bilinear', align_corners=ALIGN_CORNERS)
+
+        x_tcr = torch.cat([y_list[0], x_tcr1, x_tcr2, x_tcr3], 1)
+
         x_list = []
         for i in range(self.stage4_cfg['NUM_BRANCHES']):
             if self.transition3[i] is not None:
