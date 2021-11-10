@@ -12,6 +12,8 @@ import os
 import logging
 import time
 from pathlib import Path
+from torch.nn import functional as F
+from config import config
 
 import numpy as np
 
@@ -19,21 +21,47 @@ import torch
 import torch.nn as nn
 
 class FullModel(nn.Module):
-  """
-  Distribute the loss on multi-gpu to reduce 
-  the memory cost in the main gpu.
-  You can check the following discussion.
-  https://discuss.pytorch.org/t/dataparallel-imbalanced-memory-usage/22551/21
-  """
-  def __init__(self, model, loss):
-    super(FullModel, self).__init__()
-    self.model = model
-    self.loss = loss
+    """
+    Distribute the loss on multi-gpu to reduce 
+    the memory cost in the main gpu.
+    You can check the following discussion.
+    https://discuss.pytorch.org/t/dataparallel-imbalanced-memory-usage/22551/21
+    """
+    def __init__(self, model, loss):
+        super(FullModel, self).__init__()
+        self.model = model
+        self.loss = loss
 
-  def forward(self, inputs, labels, *args, **kwargs):
-    outputs = self.model(inputs, *args, **kwargs)
-    loss = self.loss(outputs, labels)
-    return torch.unsqueeze(loss,0), outputs
+    # def forward(self, inputs, labels, *args, **kwargs):
+    #     outputs = self.model(inputs, *args, **kwargs)
+    #     loss = self.loss(outputs, labels)
+    #     return torch.unsqueeze(loss,0), outputs
+
+    """
+    forward function for TCR
+    """
+    def forward(self, inputs1, inputs2, labels1, labels2, *args, **kwargs):
+        score_tcr1, outputs1 = self.model(inputs1, *args, **kwargs)
+        score_tcr2, outputs2 = self.model(inputs2, *args, **kwargs)
+        loss1 = self.loss(outputs1, labels1)
+        loss2 = self.loss(outputs2, labels2)
+        score_tcr1 = torch.mean(score_tcr1, 1, True)
+        score_tcr2 = torch.mean(score_tcr2, 1, True)
+        ph, pw = score_tcr1.size(2), score_tcr1.size(3)
+        labels1 = labels1.unsqueeze(1)
+        labels2 = labels2.unsqueeze(1)
+        h, w = labels1.size(2), labels1.size(3)
+        
+        if ph != h or pw != w:
+            score_tcr1 = F.interpolate(input=score_tcr1, size=
+                (h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
+            score_tcr2 = F.interpolate(input=score_tcr2, size=
+                (h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
+
+        loss3 = torch.mean((torch.abs(score_tcr1 - score_tcr2) - torch.abs(labels1 - labels2)))
+
+        loss = loss1 + loss2 + loss3
+        return torch.unsqueeze(loss,0), outputs1
 
 class AverageMeter(object):
     """Computes and stores the average and current value"""

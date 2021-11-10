@@ -1,7 +1,8 @@
 PYTHON="/Midgard/home/hfang/miniconda3/envs/solaris/bin/python"
 GPU_NUM=4
 # CONFIG="seg_hrnet_w48_512x512_sgd_lr1e-2_wd4e-5_bs_16_epoch70"
-CONFIG="seg_hrnet_w48_512x512_sgd_lr1e-3_wd1e-4_bs_16_epoch200_train"
+# CONFIG="seg_hrnet_w48_512x512_sgd_lr1e-3_wd1e-4_bs_16_epoch200_train"
+CONFIG="seg_hrnet_tcr_w48_512x512_sgd_lr1e-3_wd1e-4_bs_16_epoch200_train"
 
 # $PYTHON -m pip install -r requirements.txt
 

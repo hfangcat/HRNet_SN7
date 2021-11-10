@@ -101,3 +101,55 @@ class OhemCrossEntropy(nn.Module):
             w * func(x, target)
             for (w, x, func) in zip(weights, score, functions)
         ])
+
+
+class TCR_CrossEntropy(nn.Module):
+    def __init__(self, ignore_label=-1, weight=None):
+        super(TCR_CrossEntropy, self).__init__()
+        self.ignore_label = ignore_label
+        self.criterion = nn.CrossEntropyLoss(
+            weight=weight,
+            ignore_index=ignore_label
+        )
+
+    def _ce_forward(self, score, target):
+        ph, pw = score.size(2), score.size(3)
+        h, w = target.size(1), target.size(2)
+        if ph != h or pw != w:
+            score = F.interpolate(input=score, size=(
+                h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
+
+        loss = self.criterion(score, target)
+
+        return loss
+
+    """
+    TCR loss: Image (x1 -> tcr1 -> target1) and (x2 -> tcr2 -> target2)
+    then loss = |tcr1 - tcr2| - |target1 - target2|
+    """
+    def _tcr_forward(self, score_tcr1, score_tcr2, target1, target2):
+        ph, pw = score_tcr1.size(2), score_tcr1.size(3)
+        h, w = target1.size(1), target1.size(2)
+        if ph != h or pw != w:
+            score_tcr1 = F.interpolate(input=score_tcr1, size=
+                (h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
+            score_tcr2 = F.interpolate(input=score_tcr2, size=
+                (h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
+
+        loss = torch.mean((torch.abs(score_tcr1 - score_tcr2) - torch.abs(target1 - target2)))
+
+        return loss
+
+    def forward(self, score_tcr1, score1, target1, score_tcr2, score2, target2):
+        if config.MODEL.NUM_OUTPUTS == 1:
+            score1 = [score1]
+            score2 = [score2]
+
+        weights = config.LOSS.BALANCE_WEIGHTS
+        assert len(weights) == len(score1)
+
+        ce_loss1 = sum([w * self._ce_forward(x, target1) for (w, x) in zip(weights, score1)])
+        ce_loss2 = sum([w * self._ce_forward(x, target2) for (w, x) in zip(weights, score2)])
+        tcr_loss = self._tcr_forward(score_tcr1, score_tcr2, target1, target2)
+
+        return ce_loss1 + ce_loss2 + tcr_loss

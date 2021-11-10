@@ -12,6 +12,8 @@ import numpy as np
 import torch
 from torch.nn import functional as F
 from PIL import Image
+import random
+import json
 
 from .base_dataset import BaseDataset
 
@@ -76,6 +78,11 @@ class Spacenet7(BaseDataset):
         return image, label
 
     def __getitem__(self, index):
+        # Read data from month.json (TCR)
+        a_file = open("/Midgard/home/hfang/temporal_CD/HRNet_SN7/lib/datasets/month.json", "r")
+        dic = json.load(a_file)
+        a_file.close()
+
         item = self.files[index]
         name = item["name"]
         # image_path = os.path.join(self.root, 'ade20k', item['img'])
@@ -86,6 +93,18 @@ class Spacenet7(BaseDataset):
             cv2.IMREAD_COLOR
         )
         size = image.shape
+
+        # Get another input to the second branch (TCR)
+        aoi = item['img'].split('/')[0]
+        month = item['img'].split('_mosaic')[0].split('monthly_')[-1]
+        month_TCR = random.choice([j for j in dic[aoi] if j != month])
+        name_TCR = name.replace(month, month_TCR)
+        image_TCR_path = os.path.join(self.root, item['img'].replace(month, month_TCR))
+        image_TCR = cv2.imread(
+            image_TCR_path,
+            cv2.IMREAD_COLOR
+        )
+        size_TCR = image_TCR.shape
 
         if 'test' in self.list_path:
             image = self.resize_short_length(
@@ -105,6 +124,13 @@ class Spacenet7(BaseDataset):
 
         label[label != 0] = 1
 
+        # Get another label to the second branch (TCR)
+        label_TCR_path = os.path.join(self.root, item['label'].replace(month, month_TCR))
+        label_TCR = np.array(
+            Image.open(label_TCR_path).convert('P')
+        )
+        label_TCR[label_TCR != 0] = 1
+
         if 'val' in self.list_path:
             image, label = self.resize_short_length(
                 image,
@@ -117,12 +143,31 @@ class Spacenet7(BaseDataset):
             image = self.input_transform(image)
             image = image.transpose((2, 0, 1))
 
-            return image.copy(), label.copy(), np.array(size), name
+            # preprocess of image and label of TCR branch (TCR)
+            image_TCR, label_TCR = self.resize_short_length(
+                image_TCR,
+                label=label_TCR,
+                short_length=self.base_size,
+                fit_stride=8
+            )
+
+            image_TCR, label_TCR = self.rand_crop(image_TCR, label_TCR)
+            image_TCR = self.input_transform(image_TCR)
+            image_TCR = image_TCR.transpose((2, 0, 1))
+
+            # return image.copy(), label.copy(), np.array(size), name
+            # return inputs to the two branch (TCR)
+            return image.copy(), label.copy(), np.array(size), name, image_TCR.copy(), label_TCR.copy(), np.array(size_TCR), name_TCR
 
         image, label = self.resize_short_length(image, label, short_length=self.base_size)
         image, label = self.gen_sample(image, label, self.multi_scale, self.flip)
 
-        return image.copy(), label.copy(), np.array(size), name
+        # return image.copy(), label.copy(), np.array(size), name
+
+        # return images and labels of the two branch (TCR)
+        image_TCR, label_TCR = self.resize_short_length(image_TCR, label_TCR, short_length=self.base_size)
+        image_TCR, label_TCR = self.gen_sample(image_TCR, label_TCR, self.multi_scale, self.flip)
+        return image.copy(), label.copy(), np.array(size), name, image_TCR.copy(), label_TCR.copy(), np.array(size_TCR), name_TCR
 
 
     def save_pred(self, preds, sv_path, name):

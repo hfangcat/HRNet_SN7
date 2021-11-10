@@ -50,11 +50,23 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
     global_steps = writer_dict['train_global_steps']
 
     for i_iter, batch in enumerate(trainloader, 0):
-        images, labels, _, _ = batch
+        # images, labels, _, _ = batch
+        # images = images.cuda()
+        # labels = labels.long().cuda()
+
+        # losses, _ = model(images, labels)
+        # loss = losses.mean()
+
+        """
+        TCR: two branches, CE1 + CE2 + TCR
+        """
+        images, labels, _, _, images1, labels1, _, _ = batch
         images = images.cuda()
         labels = labels.long().cuda()
+        images1 = images1.cuda()
+        labels1 = labels1.long().cuda()
 
-        losses, _ = model(images, labels)
+        losses, _ = model(images, images1, labels, labels1)
         loss = losses.mean()
 
         if dist.is_distributed():
@@ -96,12 +108,25 @@ def validate(config, testloader, model, writer_dict):
         (config.DATASET.NUM_CLASSES, config.DATASET.NUM_CLASSES, nums))
     with torch.no_grad():
         for idx, batch in enumerate(testloader):
-            image, label, _, _ = batch
+            # image, label, _, _ = batch
+            # size = label.size()
+            # image = image.cuda()
+            # label = label.long().cuda()
+
+            # losses, pred = model(image, label)
+
+            """
+            TCR: two branches, CE1 + CE2 + TCR
+            """
+            image, label, _, _, image1, label1, _, _ = batch
             size = label.size()
             image = image.cuda()
             label = label.long().cuda()
+            image1 = image1.cuda()
+            label1 = label1.long().cuda()
 
-            losses, pred = model(image, label)
+            losses, pred = model(image, image1, label, label1)
+
             if not isinstance(pred, (list, tuple)):
                 pred = [pred]
             for i, x in enumerate(pred):
