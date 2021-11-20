@@ -77,6 +77,102 @@ class Spacenet7(BaseDataset):
         label = cv2.resize(label, size, interpolation=cv2.INTER_NEAREST)
         return image, label
 
+    # Function "rand_crop_tcr" for the image/image_TCR and label/label_TCR
+    # Utilized in the validation set
+    def rand_crop_tcr(self, image, label, image_TCR, label_TCR):
+        h, w = image.shape[:-1]
+        image = self.pad_image(image, h, w, self.crop_size, (0.0, 0.0, 0.0))
+        label = self.pad_image(label, h, w, self.crop_size, (self.ignore_label,))
+
+        h_TCR, w_TCR = image_TCR.shape[:-1]
+        image_TCR = self.pad_image(image_TCR, h_TCR, w_TCR, self.crop_size, (0.0, 0.0, 0.0))
+        label_TCR = self.pad_image(label_TCR, h_TCR, w_TCR, self.crop_size, (self.ignore_label,))
+
+        new_h, new_w = label.shape
+        x = random.randint(0, new_w - self.crop_size[1])
+        y = random.randint(0, new_h - self.crop_size[0])
+        image = image[y:y+self.crop_size[0], x:x+self.crop_size[1]]
+        label = label[y:y+self.crop_size[0], x:x+self.crop_size[1]]
+        image_TCR = image_TCR[y:y+self.crop_size[0], x:x+self.crop_size[1]]
+        label_TCR = label_TCR[y:y+self.crop_size[0], x:x+self.crop_size[1]]
+
+        return image, label, image_TCR, label_TCR
+
+    # Function "multi_scale_aug_tcr" for the image/image_TCR and label/label_TCR
+    # Utilized in the gen_sample function -> training set
+    def multi_scale_aug_tcr(self, image, label=None, image_TCR, label_TCR=None, rand_scale=1, rand_crop=True):
+        long_size = np.int(self.base_size * rand_scale + 0.5)
+        h, w = image.shape[:2]
+        if h > w:
+            new_h = long_size
+            new_w = np.int(w * long_size / h + 0.5)
+        else:
+            new_w = long_size
+            new_h = np.int(h * long_size / w + 0.5)
+
+        image = cv2.resize(image, (new_w, new_h),
+                           interpolation=cv2.INTER_LINEAR)
+        image_TCR = cv2.resize(image_TCR, (new_w, new_h), 
+                           interpolation=cv2.INTER_LINEAR)
+
+        if label is not None and label_TCR is not None:
+            label = cv2.resize(label, (new_w, new_h),
+                               interpolation=cv2.INTER_NEAREST)
+            label_TCR = cv2.resize(label_TCR, (new_w, new_h),
+                               interpolation=cv2.INTER_NEAREST)
+        else:
+            return image, image_TCR
+
+        if rand_crop:
+            image, label, image_TCR, label_TCR = self.rand_crop_tcr(image, label, image_TCR, label_TCR)
+
+        return image, label, image_TCR, label_TCR
+
+    # Function "gen_sample_TCR" for the image/image_TCR and label/label_TCR
+    # Utilized in the training set
+    def gen_sample_tcr(self, image, label, image_TCR, label_TCR, multi_scale=True, is_flip=True):
+        if multi_scale:
+            rand_scale = 0.5 + random.randint(0, self.scale_factor) / 10.0
+            image, label, image_TCR, label_TCR = self.multi_scale_aug_tcr(image,label, image_TCR, label_TCR, rand_scale=rand_scale)
+
+        image = self.random_brightness(image)
+        image = self.input_transform(image)
+        label = self.label_transform(label)
+
+        image = image.transpose((2, 0, 1))
+
+        image_TCR = self.random_brightness(image_TCR)
+        image_TCR = self.input_transform(image_TCR)
+        label_TCR = self.label_transform(label_TCR)
+
+        image_TCR = image_TCR.transpose((2, 0, 1))
+
+        if is_flip:
+            flip = np.random.choice(2) * 2 - 1
+            image = image[:, :, ::flip]
+            label = label[:, ::flip]
+            image_TCR = image_TCR[:, :, ::flip]
+            label_TCR = label_TCR[:, ::flip]
+
+        if self.downsample_rate != 1:
+            label = cv2.resize(
+                label,
+                None,
+                fx=self.downsample_rate,
+                fy=self.downsample_rate,
+                interpolation=cv2.INTER_NEAREST
+            )
+            label_TCR = cv2.resize(
+                label_TCR,
+                None,
+                fx=self.downsample_rate,
+                fy=self.downsample_rate,
+                interpolation=cv2.INTER_NEAREST
+            )
+
+        return image, label, image_TCR, label_TCR
+
+
     def __getitem__(self, index):
         # Read data from month.json (TCR)
         a_file = open("/Midgard/home/hfang/temporal_CD/HRNet_SN7/lib/datasets/month.json", "r")
@@ -139,10 +235,6 @@ class Spacenet7(BaseDataset):
                 fit_stride=8
             )
 
-            image, label = self.rand_crop(image, label)
-            image = self.input_transform(image)
-            image = image.transpose((2, 0, 1))
-
             # preprocess of image and label of TCR branch (TCR)
             image_TCR, label_TCR = self.resize_short_length(
                 image_TCR,
@@ -151,7 +243,12 @@ class Spacenet7(BaseDataset):
                 fit_stride=8
             )
 
-            image_TCR, label_TCR = self.rand_crop(image_TCR, label_TCR)
+            # rand_crop -> rand_crop_tcr
+            # keep the same transformation for the image/image_TCR and label/label_TCR
+            image, label, image_TCR, label_TCR = self.rand_crop_tcr(image, label, image_TCR, label_TCR)
+            image = self.input_transform(image)
+            image = image.transpose((2, 0, 1))
+
             image_TCR = self.input_transform(image_TCR)
             image_TCR = image_TCR.transpose((2, 0, 1))
 
@@ -160,13 +257,16 @@ class Spacenet7(BaseDataset):
             return image.copy(), label.copy(), np.array(size), name, image_TCR.copy(), label_TCR.copy(), np.array(size_TCR), name_TCR
 
         image, label = self.resize_short_length(image, label, short_length=self.base_size)
-        image, label = self.gen_sample(image, label, self.multi_scale, self.flip)
 
         # return image.copy(), label.copy(), np.array(size), name
 
         # return images and labels of the two branch (TCR)
         image_TCR, label_TCR = self.resize_short_length(image_TCR, label_TCR, short_length=self.base_size)
-        image_TCR, label_TCR = self.gen_sample(image_TCR, label_TCR, self.multi_scale, self.flip)
+
+        # gen_sample -> gen_sample_tcr
+        # keep the same transformation for the image/image_TCR and label/label_TCR (flip + rand_crop + multi_scale_aug)
+        image, label, image_TCR, label_TCR = self.gen_sample_tcr(image, label, image_TCR, label_TCR, self.multi_scale, self.flip)
+        
         return image.copy(), label.copy(), np.array(size), name, image_TCR.copy(), label_TCR.copy(), np.array(size_TCR), name_TCR
 
 
