@@ -100,7 +100,7 @@ class Spacenet7(BaseDataset):
 
     # Function "multi_scale_aug_tcr" for the image/image_TCR and label/label_TCR
     # Utilized in the gen_sample function -> training set
-    def multi_scale_aug_tcr(self, image, label=None, image_TCR, label_TCR=None, rand_scale=1, rand_crop=True):
+    def multi_scale_aug_tcr(self, image, image_TCR, label=None, label_TCR=None, rand_scale=1, rand_crop=True):
         long_size = np.int(self.base_size * rand_scale + 0.5)
         h, w = image.shape[:2]
         if h > w:
@@ -133,7 +133,7 @@ class Spacenet7(BaseDataset):
     def gen_sample_tcr(self, image, label, image_TCR, label_TCR, multi_scale=True, is_flip=True):
         if multi_scale:
             rand_scale = 0.5 + random.randint(0, self.scale_factor) / 10.0
-            image, label, image_TCR, label_TCR = self.multi_scale_aug_tcr(image,label, image_TCR, label_TCR, rand_scale=rand_scale)
+            image, label, image_TCR, label_TCR = self.multi_scale_aug_tcr(image, image_TCR, label, label_TCR, rand_scale=rand_scale)
 
         image = self.random_brightness(image)
         image = self.input_transform(image)

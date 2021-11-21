@@ -45,11 +45,11 @@ class FullModel(nn.Module):
         score_tcr2, outputs2 = self.model(inputs2, *args, **kwargs)
         loss1 = self.loss(outputs1, labels1)
         loss2 = self.loss(outputs2, labels2)
-        score_tcr1 = torch.mean(score_tcr1, 1, True)
-        score_tcr2 = torch.mean(score_tcr2, 1, True)
+        # score_tcr1, score_tcr2 -> (bs, 336, 128, 128)
         ph, pw = score_tcr1.size(2), score_tcr1.size(3)
         labels1 = labels1.unsqueeze(1)
         labels2 = labels2.unsqueeze(1)
+        # label1, label2 -> (bs, 1, 512, 512)
         h, w = labels1.size(2), labels1.size(3)
         
         if ph != h or pw != w:
@@ -58,10 +58,12 @@ class FullModel(nn.Module):
             score_tcr2 = F.interpolate(input=score_tcr2, size=
                 (h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
 
-        loss3 = torch.mean((torch.abs(score_tcr1 - score_tcr2) - torch.abs(labels1 - labels2)))
+        # loss3 (bs, 336, 512, 512) = | | (bs, 336, 512, 512) * (2| | - 1) (bs, 1, 512, 512)
+        loss3 = torch.mean((torch.abs(score_tcr1 - score_tcr2)) * (2 * torch.abs(labels1 - labels2) - 1))
 
-        loss = loss1 + loss2 + loss3
-        return torch.unsqueeze(loss,0), outputs1
+        ce_loss = loss1 + loss2
+        
+        return torch.unsqueeze(ce_loss,0), torch.unsqueeze(loss3,0), outputs1
 
 class AverageMeter(object):
     """Computes and stores the average and current value"""

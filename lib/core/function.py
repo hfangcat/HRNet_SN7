@@ -38,12 +38,15 @@ def reduce_tensor(inp):
 
 
 def train(config, epoch, num_epoch, epoch_iters, base_lr,
-          num_iters, trainloader, optimizer, model, writer_dict):
+          num_iters, trainloader, optimizer, model, writer_dict, alpha=0.5):
     # Training
     model.train()
 
     batch_time = AverageMeter()
     ave_loss = AverageMeter()
+    # record ce_loss and tcr_loss
+    ave_ce_loss = AverageMeter()
+    ave_tcr_loss = AverageMeter()
     tic = time.time()
     cur_iters = epoch*epoch_iters
     writer = writer_dict['writer']
@@ -66,13 +69,25 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         images1 = images1.cuda()
         labels1 = labels1.long().cuda()
 
-        losses, _ = model(images, images1, labels, labels1)
+        # losses, _ = model(images, images1, labels, labels1)
+        # show ce_loss, tcr_loss separately
+        ce_losses, tcr_losses, _ = model(images, images1, labels, labels1)
+        losses = alpha * ce_losses + (1 - alpha) * tcr_losses
+        ce_loss = ce_losses.mean()
+        tcr_loss = tcr_losses.mean()
+
         loss = losses.mean()
 
         if dist.is_distributed():
             reduced_loss = reduce_tensor(loss)
+            # record ce_loss and tcr_loss
+            reduced_ce_loss = reduce_tensor(ce_loss)
+            reduced_tcr_loss = reduce_tensor(tcr_loss)
         else:
             reduced_loss = loss
+            # record ce_loss and tcr_loss
+            reduced_ce_loss = ce_loss
+            reduced_tcr_loss = tcr_loss
 
         model.zero_grad()
         loss.backward()
@@ -85,22 +100,36 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         # update average loss
         ave_loss.update(reduced_loss.item())
 
+        # update average ce_loss and tcr_loss
+        ave_ce_loss.update(reduced_ce_loss.item())
+        ave_tcr_loss.update(reduced_tcr_loss.item())
+
         lr = adjust_learning_rate(optimizer,
                                   base_lr,
                                   num_iters,
                                   i_iter+cur_iters)
 
         if i_iter % config.PRINT_FREQ == 0 and dist.get_rank() == 0:
+            # msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
+            #       'lr: {}, Loss: {:.6f}' .format(
+            #           epoch, num_epoch, i_iter, epoch_iters,
+            #           batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average())
+
+            # record average ce_loss and tcr_loss
             msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
-                  'lr: {}, Loss: {:.6f}' .format(
+                  'lr: {}, Loss: {:.6f}, CE_Loss: {:.6f}, TCR_Loss: {:.6f}' .format(
                       epoch, num_epoch, i_iter, epoch_iters,
-                      batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average())
+                      batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average(), ave_ce_loss.average(), ave_tcr_loss.average())
             logging.info(msg)
 
     writer.add_scalar('train_loss', ave_loss.average(), global_steps)
+    # record average ce_loss and tcr_loss
+    writer.add_scalar('train_ce_loss', ave_ce_loss.average(), global_steps)
+    writer.add_scalar('train_tcr_loss', ave_tcr_loss.average(), global_steps)
+
     writer_dict['train_global_steps'] = global_steps + 1
 
-def validate(config, testloader, model, writer_dict):
+def validate(config, testloader, model, writer_dict, alpha=0.5):
     model.eval()
     ave_loss = AverageMeter()
     nums = config.MODEL.NUM_OUTPUTS
@@ -125,7 +154,10 @@ def validate(config, testloader, model, writer_dict):
             image1 = image1.cuda()
             label1 = label1.long().cuda()
 
-            losses, pred = model(image, image1, label, label1)
+            # losses, pred = model(image, image1, label, label1)
+            # loss function
+            ce_losses, tcr_losses, pred = model(image, image1, label, label1)
+            losses = alpha * ce_losses + (1 - alpha) * tcr_losses
 
             if not isinstance(pred, (list, tuple)):
                 pred = [pred]
