@@ -58,8 +58,8 @@ class FullModel(nn.Module):
             score_tcr2 = F.interpolate(input=score_tcr2, size=
                 (h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
 
-        # loss3 (bs, 336, 512, 512) = | | (bs, 336, 512, 512) * (2| | - 1) (bs, 1, 512, 512)
-        loss3 = torch.mean((torch.abs(score_tcr1 - score_tcr2)) * (2 * torch.abs(labels1 - labels2) - 1))
+        # loss3 (bs, 336, 512, 512) = | |(l2) (bs, 336, 512, 512) * (1 - 2| |)(l1) (bs, 1, 512, 512)
+        loss3 = torch.mean((torch.square(score_tcr1 - score_tcr2)) * (1 - 2 * torch.abs(labels1 - labels2)))
 
         ce_loss = loss1 + loss2
         

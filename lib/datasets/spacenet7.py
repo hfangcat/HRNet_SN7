@@ -175,7 +175,8 @@ class Spacenet7(BaseDataset):
 
     def __getitem__(self, index):
         # Read data from month.json (TCR)
-        a_file = open("/Midgard/home/hfang/temporal_CD/HRNet_SN7/lib/datasets/month.json", "r")
+        # a_file = open("/Midgard/home/hfang/temporal_CD/HRNet_SN7/lib/datasets/month.json", "r")
+        a_file = open("/proj/berzelius-2021-54/users/HRNet_SN7/lib/datasets/month.json", "r")
         dic = json.load(a_file)
         a_file.close()
 
@@ -190,6 +191,17 @@ class Spacenet7(BaseDataset):
         )
         size = image.shape
 
+        if 'test' in self.list_path:
+            image = self.resize_short_length(
+                image,
+                short_length=self.base_size,
+                fit_stride=8
+            )
+            image = self.input_transform(image)
+            image = image.transpose((2, 0, 1))
+
+            return image.copy(), np.array(size), name
+
         # Get another input to the second branch (TCR)
         aoi = item['img'].split('/')[0]
         month = item['img'].split('_mosaic')[0].split('monthly_')[-1]
@@ -201,17 +213,6 @@ class Spacenet7(BaseDataset):
             cv2.IMREAD_COLOR
         )
         size_TCR = image_TCR.shape
-
-        if 'test' in self.list_path:
-            image = self.resize_short_length(
-                image,
-                short_length=self.base_size,
-                fit_stride=8
-            )
-            image = self.input_transform(image)
-            image = image.transpose((2, 0, 1))
-
-            return image.copy(), np.array(size), name
 
         label_path = os.path.join(self.root, item['label'])
         label = np.array(
@@ -287,5 +288,39 @@ class Spacenet7(BaseDataset):
             if not os.path.exists(sv_path_png):
                     os.mkdir(sv_path_png)
             save_img.save(os.path.join(sv_path_png, name[i]+'.png'))
+
+
+    def inference(self, config, model, image, flip=False):
+        size = image.size()
+        # seg_hrnet.py -> forward() -> return x_tcr, x
+        _, pred = model(image)
+
+        if config.MODEL.NUM_OUTPUTS > 1:
+            pred = pred[config.TEST.OUTPUT_INDEX]
+
+        pred = F.interpolate(
+            input=pred, size=size[-2:],
+            mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
+        )
+
+        if flip:
+            flip_img = image.numpy()[:, :, :, ::-1]
+            # seg_hrnet.py -> forward() -> return x_tcr, x
+            _, flip_output = model(torch.from_numpy(flip_img.copy()))
+
+            if config.MODEL.NUM_OUTPUTS > 1:
+                flip_output = flip_output[config.TEST.OUTPUT_INDEX]
+
+            flip_output = F.interpolate(
+                input=flip_output, size=size[-2:],
+                mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
+            )
+
+            flip_pred = flip_output.cpu().numpy().copy()
+            flip_pred = torch.from_numpy(
+                flip_pred[:, :, :, ::-1].copy()).cuda()
+            pred += flip_pred
+            pred = pred * 0.5
+        return pred.exp()
 
             
