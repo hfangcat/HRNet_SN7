@@ -20,6 +20,11 @@ import numpy as np
 import torch
 import torch.nn as nn
 
+# flag for tcr versions
+# flag = 0 -> tcr version 1 (add one tcr branch)
+# flag = 1 -> tcr version 2 (add cloud information)
+flag = 1
+
 class FullModel(nn.Module):
     """
     Distribute the loss on multi-gpu to reduce 
@@ -40,30 +45,65 @@ class FullModel(nn.Module):
     """
     forward function for TCR
     """
-    def forward(self, inputs1, inputs2, labels1, labels2, *args, **kwargs):
-        score_tcr1, outputs1 = self.model(inputs1, *args, **kwargs)
-        score_tcr2, outputs2 = self.model(inputs2, *args, **kwargs)
-        loss1 = self.loss(outputs1, labels1)
-        loss2 = self.loss(outputs2, labels2)
-        # score_tcr1, score_tcr2 -> (bs, 336, 128, 128)
-        ph, pw = score_tcr1.size(2), score_tcr1.size(3)
-        labels1 = labels1.unsqueeze(1)
-        labels2 = labels2.unsqueeze(1)
-        # label1, label2 -> (bs, 1, 512, 512)
-        h, w = labels1.size(2), labels1.size(3)
-        
-        if ph != h or pw != w:
-            score_tcr1 = F.interpolate(input=score_tcr1, size=
-                (h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
-            score_tcr2 = F.interpolate(input=score_tcr2, size=
-                (h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
+    if flag == 0:
+        def forward(self, inputs1, inputs2, labels1, labels2, *args, **kwargs):
+            score_tcr1, outputs1 = self.model(inputs1, *args, **kwargs)
+            score_tcr2, outputs2 = self.model(inputs2, *args, **kwargs)
+            loss1 = self.loss(outputs1, labels1)
+            loss2 = self.loss(outputs2, labels2)
+            # score_tcr1, score_tcr2 -> (bs, 336, 128, 128)
+            ph, pw = score_tcr1.size(2), score_tcr1.size(3)
+            labels1 = labels1.unsqueeze(1)
+            labels2 = labels2.unsqueeze(1)
+            # label1, label2 -> (bs, 1, 512, 512)
+            h, w = labels1.size(2), labels1.size(3)
+            
+            if ph != h or pw != w:
+                score_tcr1 = F.interpolate(input=score_tcr1, size=
+                    (h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
+                score_tcr2 = F.interpolate(input=score_tcr2, size=
+                    (h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
 
-        # loss3 (bs, 336, 512, 512) = | |(l2) (bs, 336, 512, 512) * (1 - 2| |)(l1) (bs, 1, 512, 512)
-        loss3 = torch.mean((torch.square(score_tcr1 - score_tcr2)) * (1 - 2 * torch.abs(labels1 - labels2)))
+            # loss3 (bs, 336, 512, 512) = | |(l2) (bs, 336, 512, 512) * (1 - 2| |)(l1) (bs, 1, 512, 512)
+            loss3 = torch.mean((torch.square(score_tcr1 - score_tcr2)) * (1 - 2 * torch.abs(labels1 - labels2)))
 
-        ce_loss = loss1 + loss2
-        
-        return torch.unsqueeze(ce_loss,0), torch.unsqueeze(loss3,0), outputs1
+            ce_loss = loss1 + loss2
+            
+            return torch.unsqueeze(ce_loss,0), torch.unsqueeze(loss3,0), outputs1
+    elif flag == 1:
+        def forward(self, inputs1, inputs2, labels1, labels2, clouds1, clouds2, *args, **kwargs):
+            # add cloud information to CE loss (necessary or not?)
+            
+            # score_tcr1, outputs1 = self.model(inputs1 * (1 - clouds1), *args, **kwargs)
+            # score_tcr2, outputs2 = self.model(inputs2 * (1 - clouds2), *args, **kwargs)
+            # loss1 = self.loss(outputs1, labels1 * (1 - clouds1))
+            # loss2 = self.loss(outputs2, labels2 * (1 - clouds2))
+
+            score_tcr1, outputs1 = self.model(inputs1, *args, **kwargs)
+            score_tcr2, outputs2 = self.model(inputs2, *args, **kwargs)
+            loss1 = self.loss(outputs1, labels1)
+            loss2 = self.loss(outputs2, labels2)
+
+            ce_loss = loss1 + loss2
+
+            # score_tcr1, score_tcr2 -> (bs, 336, 128, 128)
+            ph, pw = score_tcr1.size(2), score_tcr1.size(3)
+            labels1 = labels1.unsqueeze(1)
+            labels2 = labels2.unsqueeze(1)
+            # label1, label2 -> (bs, 1, 512, 512)
+            h, w = labels1.size(2), labels1.size(3)
+            
+            if ph != h or pw != w:
+                score_tcr1 = F.interpolate(input=score_tcr1, size=
+                    (h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
+                score_tcr2 = F.interpolate(input=score_tcr2, size=
+                    (h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
+
+            tcr_loss_01 = torch.mean(-torch.square(score_tcr1 - score_tcr2) * torch.abs(labels1 - labels2) * torch.clamp(1 - clouds1 - clouds2, min=0))
+            tcr_loss_00 = torch.mean(torch.square(score_tcr1 - score_tcr2) * torch.clamp(1 - labels1 - labels2, min=0) * torch.clamp(1 - clouds1 - clouds2, min=0))
+            tcr_loss_11 = torch.mean(torch.square(score_tcr1 - score_tcr2) * torch.clamp(labels1 + labels2 - 1, min=0) * torch.clamp(1 - clouds1 - clouds2, min=0))
+
+            return torch.unsqueeze(ce_loss, 0), torch.unsqueeze(tcr_loss_01, 0), torch.unsqueeze(tcr_loss_00, 0), torch.unsqueeze(tcr_loss_11, 0), outputs1
 
 class AverageMeter(object):
     """Computes and stores the average and current value"""

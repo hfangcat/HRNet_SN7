@@ -22,6 +22,10 @@ from utils.utils import adjust_learning_rate
 
 import utils.distributed as dist
 
+# flag for tcr versions
+# flag = 0 -> tcr version 1 (add one tcr branch)
+# flag = 1 -> tcr version 2 (add cloud information)
+flag = 1
 
 def reduce_tensor(inp):
     """
@@ -46,88 +50,177 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
     ave_loss = AverageMeter()
     # record ce_loss and tcr_loss
     ave_ce_loss = AverageMeter()
-    ave_tcr_loss = AverageMeter()
+    if flag == 0:
+        ave_tcr_loss = AverageMeter()
+    elif flag == 1:
+        # record separate tcr_loss
+        # tcr_01_loss, tcr_00_loss, tcr_11_loss
+        ave_tcr_01_loss = AverageMeter()
+        ave_tcr_00_loss = AverageMeter()
+        ave_tcr_11_loss = AverageMeter()
     tic = time.time()
     cur_iters = epoch*epoch_iters
     writer = writer_dict['writer']
     global_steps = writer_dict['train_global_steps']
 
-    for i_iter, batch in enumerate(trainloader, 0):
-        # images, labels, _, _ = batch
-        # images = images.cuda()
-        # labels = labels.long().cuda()
+    if flag == 0:
+        for i_iter, batch in enumerate(trainloader, 0):
+            # images, labels, _, _ = batch
+            # images = images.cuda()
+            # labels = labels.long().cuda()
 
-        # losses, _ = model(images, labels)
-        # loss = losses.mean()
+            # losses, _ = model(images, labels)
+            # loss = losses.mean()
 
-        """
-        TCR: two branches, CE1 + CE2 + TCR
-        """
-        images, labels, _, _, images1, labels1, _, _ = batch
-        images = images.cuda()
-        labels = labels.long().cuda()
-        images1 = images1.cuda()
-        labels1 = labels1.long().cuda()
+            """
+            TCR: two branches, CE1 + CE2 + TCR
+            """
+            images, labels, _, _, images1, labels1, _, _ = batch
+            images = images.cuda()
+            labels = labels.long().cuda()
+            images1 = images1.cuda()
+            labels1 = labels1.long().cuda()
 
-        # losses, _ = model(images, images1, labels, labels1)
-        # show ce_loss, tcr_loss separately
-        ce_losses, tcr_losses, _ = model(images, images1, labels, labels1)
-        losses = alpha * ce_losses + (1 - alpha) * tcr_losses
-        ce_loss = ce_losses.mean()
-        tcr_loss = tcr_losses.mean()
+            # losses, _ = model(images, images1, labels, labels1)
+            # show ce_loss, tcr_loss separately
+            ce_losses, tcr_losses, _ = model(images, images1, labels, labels1)
+            losses = alpha * ce_losses + (1 - alpha) * tcr_losses
+            ce_loss = ce_losses.mean()
+            tcr_loss = tcr_losses.mean()
 
-        loss = losses.mean()
+            loss = losses.mean()
 
-        if dist.is_distributed():
-            reduced_loss = reduce_tensor(loss)
-            # record ce_loss and tcr_loss
-            reduced_ce_loss = reduce_tensor(ce_loss)
-            reduced_tcr_loss = reduce_tensor(tcr_loss)
-        else:
-            reduced_loss = loss
-            # record ce_loss and tcr_loss
-            reduced_ce_loss = ce_loss
-            reduced_tcr_loss = tcr_loss
+            if dist.is_distributed():
+                reduced_loss = reduce_tensor(loss)
+                # record ce_loss and tcr_loss
+                reduced_ce_loss = reduce_tensor(ce_loss)
+                reduced_tcr_loss = reduce_tensor(tcr_loss)
+            else:
+                reduced_loss = loss
+                # record ce_loss and tcr_loss
+                reduced_ce_loss = ce_loss
+                reduced_tcr_loss = tcr_loss
 
-        model.zero_grad()
-        loss.backward()
-        optimizer.step()
+            model.zero_grad()
+            loss.backward()
+            optimizer.step()
 
-        # measure elapsed time
-        batch_time.update(time.time() - tic)
-        tic = time.time()
+            # measure elapsed time
+            batch_time.update(time.time() - tic)
+            tic = time.time()
 
-        # update average loss
-        ave_loss.update(reduced_loss.item())
+            # update average loss
+            ave_loss.update(reduced_loss.item())
 
-        # update average ce_loss and tcr_loss
-        ave_ce_loss.update(reduced_ce_loss.item())
-        ave_tcr_loss.update(reduced_tcr_loss.item())
+            # update average ce_loss and tcr_loss
+            ave_ce_loss.update(reduced_ce_loss.item())
+            ave_tcr_loss.update(reduced_tcr_loss.item())
 
-        lr = adjust_learning_rate(optimizer,
-                                  base_lr,
-                                  num_iters,
-                                  i_iter+cur_iters)
+            lr = adjust_learning_rate(optimizer,
+                                    base_lr,
+                                    num_iters,
+                                    i_iter+cur_iters)
 
-        if i_iter % config.PRINT_FREQ == 0 and dist.get_rank() == 0:
-            # msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
-            #       'lr: {}, Loss: {:.6f}' .format(
-            #           epoch, num_epoch, i_iter, epoch_iters,
-            #           batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average())
+            if i_iter % config.PRINT_FREQ == 0 and dist.get_rank() == 0:
+                # msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
+                #       'lr: {}, Loss: {:.6f}' .format(
+                #           epoch, num_epoch, i_iter, epoch_iters,
+                #           batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average())
 
-            # record average ce_loss and tcr_loss
-            msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
-                  'lr: {}, Loss: {:.6f}, CE_Loss: {:.6f}, TCR_Loss: {:.6f}' .format(
-                      epoch, num_epoch, i_iter, epoch_iters,
-                      batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average(), ave_ce_loss.average(), ave_tcr_loss.average())
-            logging.info(msg)
+                # record average ce_loss and tcr_loss
+                msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
+                    'lr: {}, Loss: {:.6f}, CE_Loss: {:.6f}, TCR_Loss: {:.6f}' .format(
+                        epoch, num_epoch, i_iter, epoch_iters,
+                        batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average(), ave_ce_loss.average(), ave_tcr_loss.average())
+                logging.info(msg)
 
-    writer.add_scalar('train_loss', ave_loss.average(), global_steps)
-    # record average ce_loss and tcr_loss
-    writer.add_scalar('train_ce_loss', ave_ce_loss.average(), global_steps)
-    writer.add_scalar('train_tcr_loss', ave_tcr_loss.average(), global_steps)
+        writer.add_scalar('train_loss', ave_loss.average(), global_steps)
+        # record average ce_loss and tcr_loss
+        writer.add_scalar('train_ce_loss', ave_ce_loss.average(), global_steps)
+        writer.add_scalar('train_tcr_loss', ave_tcr_loss.average(), global_steps)
 
-    writer_dict['train_global_steps'] = global_steps + 1
+        writer_dict['train_global_steps'] = global_steps + 1
+    elif flag == 1:
+        for i_iter, batch in enumerate(trainloader, 0):
+            """
+            TCR: two branches, CE1 + CE2 + TCR
+            """
+            images, labels, clouds, _, _, images1, labels1, clouds1 _, _ = batch
+            images = images.cuda()
+            labels = labels.long().cuda()
+            clouds = clouds.long().cuda()
+            images1 = images1.cuda()
+            labels1 = labels1.long().cuda()
+            clouds1 = clouds1.long().cuda()
+
+            # show ce_loss, 3 separate tcr_losses
+            ce_losses, tcr_01_losses, tcr_00_losses, tcr_11_losses, _ = model(images, images1, labels, labels1, clouds, clouds1)
+            losses = alpha * ce_losses + (1 - alpha) * (tcr_01_losses + tcr_00_losses + tcr_11_losses)
+            ce_loss = ce_losses.mean()
+            tcr_01_loss = tcr_01_losses.mean()
+            tcr_00_loss = tcr_00_losses.mean()
+            tcr_11_loss = tcr_11_losses.mean()
+            loss = losses.mean()
+
+            if dist.is_distributed():
+                reduced_loss = reduce_tensor(loss)
+                # record ce_loss and 3 separate tcr_losses
+                reduced_ce_loss = reduce_tensor(ce_loss)
+                reduced_tcr_01_loss = reduce_tensor(tcr_01_loss)
+                reduced_tcr_00_loss = reduce_tensor(tcr_00_loss)
+                reduced_tcr_11_loss = reduce_tensor(tcr_11_loss)
+            else:
+                reduced_loss = loss
+                # record ce_loss and 3 separate tcr_losses
+                reduced_ce_loss = ce_loss
+                reduced_tcr_01_loss = tcr_01_loss
+                reduced_tcr_00_loss = tcr_00_loss
+                reduced_tcr_11_loss = tcr_11_loss
+
+            model.zero_grad()
+            loss.backward()
+            optimizer.step()
+
+            # measure elapsed time
+            batch_time.update(time.time() - tic)
+            tic = time.time()
+
+            # update average loss
+            ave_loss.update(reduced_loss.item())
+
+            # update average ce_loss and 3 separate tcr_losses
+            ave_ce_loss.update(reduced_ce_loss.item())
+            ave_tcr_01_loss.update(reduced_tcr_01_loss.item())
+            ave_tcr_00_loss.update(reduced_tcr_00_loss.item())
+            ave_tcr_11_loss.update(reduced_tcr_11_loss.item())
+
+            lr = adjust_learning_rate(optimizer,
+                                    base_lr,
+                                    num_iters,
+                                    i_iter+cur_iters)
+
+            if i_iter % config.PRINT_FREQ == 0 and dist.get_rank() == 0:
+                # msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
+                #       'lr: {}, Loss: {:.6f}' .format(
+                #           epoch, num_epoch, i_iter, epoch_iters,
+                #           batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average())
+
+                # record average ce_loss and 3 separate tcr_losses
+                msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
+                    'lr: {}, Loss: {:.6f}, CE_Loss: {:.6f}, TCR_01_Loss: {:.6f}, TCR_00_Loss: {:.6f}, TCR_11_Loss: {:.6f}' .format(
+                        epoch, num_epoch, i_iter, epoch_iters,
+                        batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average(), ave_ce_loss.average(),
+                        ave_tcr_01_loss.average(), ave_tcr_00_loss.average(), ave_tcr_11_loss.average())
+                logging.info(msg)
+
+        writer.add_scalar('train_loss', ave_loss.average(), global_steps)
+        # record average ce_loss and 3 separate tcr_losses
+        writer.add_scalar('train_ce_loss', ave_ce_loss.average(), global_steps)
+        writer.add_scalar('train_tcr_01_loss', ave_tcr_01_loss.average(), global_steps)
+        writer.add_scalar('train_tcr_00_loss', ave_tcr_00_loss.average(), global_steps)
+        writer.add_scalar('train_tcr_11_loss', ave_tcr_11_loss.average(), global_steps)
+        
+        writer_dict['train_global_steps'] = global_steps + 1
 
 def validate(config, testloader, model, writer_dict, alpha=0.5):
     model.eval()
@@ -147,17 +240,30 @@ def validate(config, testloader, model, writer_dict, alpha=0.5):
             """
             TCR: two branches, CE1 + CE2 + TCR
             """
-            image, label, _, _, image1, label1, _, _ = batch
-            size = label.size()
-            image = image.cuda()
-            label = label.long().cuda()
-            image1 = image1.cuda()
-            label1 = label1.long().cuda()
+            if flag == 0:
+                image, label, _, _, image1, label1, _, _ = batch
+                size = label.size()
+                image = image.cuda()
+                label = label.long().cuda()
+                image1 = image1.cuda()
+                label1 = label1.long().cuda()
 
-            # losses, pred = model(image, image1, label, label1)
-            # loss function
-            ce_losses, tcr_losses, pred = model(image, image1, label, label1)
-            losses = alpha * ce_losses + (1 - alpha) * tcr_losses
+                # losses, pred = model(image, image1, label, label1)
+                # loss function
+                ce_losses, tcr_losses, pred = model(image, image1, label, label1)
+                losses = alpha * ce_losses + (1 - alpha) * tcr_losses
+
+            elif flag == 1:
+                images, labels, clouds, _, _, images1, labels1, clouds1 _, _ = batch
+                images = images.cuda()
+                labels = labels.long().cuda()
+                clouds = clouds.long().cuda()
+                images1 = images1.cuda()
+                labels1 = labels1.long().cuda()
+                clouds1 = clouds1.long().cuda()
+
+                ce_losses, tcr_01_losses, tcr_00_losses, tcr_11_losses, pred = model(images, images1, labels, labels1, clouds, clouds1)
+                losses = alpha * ce_losses + (1 - alpha) * (tcr_01_losses + tcr_00_losses + tcr_11_losses)
 
             if not isinstance(pred, (list, tuple)):
                 pred = [pred]
