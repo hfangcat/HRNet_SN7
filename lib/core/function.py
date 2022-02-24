@@ -145,7 +145,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
             """
             TCR: two branches, CE1 + CE2 + TCR
             """
-            images, labels, clouds, _, _, images1, labels1, clouds1 _, _ = batch
+            images, labels, clouds, _, _, images1, labels1, clouds1, _, _ = batch
             images = images.cuda()
             labels = labels.long().cuda()
             clouds = clouds.long().cuda()
@@ -254,15 +254,16 @@ def validate(config, testloader, model, writer_dict, alpha=0.5):
                 losses = alpha * ce_losses + (1 - alpha) * tcr_losses
 
             elif flag == 1:
-                images, labels, clouds, _, _, images1, labels1, clouds1 _, _ = batch
-                images = images.cuda()
-                labels = labels.long().cuda()
-                clouds = clouds.long().cuda()
-                images1 = images1.cuda()
-                labels1 = labels1.long().cuda()
-                clouds1 = clouds1.long().cuda()
+                image, label, cloud, _, _, image1, label1, cloud1, _, _ = batch
+                size = label.size()
+                image = image.cuda()
+                label = label.long().cuda()
+                cloud = cloud.long().cuda()
+                image1 = image1.cuda()
+                label1 = label1.long().cuda()
+                cloud1 = cloud1.long().cuda()
 
-                ce_losses, tcr_01_losses, tcr_00_losses, tcr_11_losses, pred = model(images, images1, labels, labels1, clouds, clouds1)
+                ce_losses, tcr_01_losses, tcr_00_losses, tcr_11_losses, pred = model(image, image1, label, label1, cloud, cloud1)
                 losses = alpha * ce_losses + (1 - alpha) * (tcr_01_losses + tcr_00_losses + tcr_11_losses)
 
             if not isinstance(pred, (list, tuple)):

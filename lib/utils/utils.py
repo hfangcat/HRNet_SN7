@@ -91,6 +91,10 @@ class FullModel(nn.Module):
             labels1 = labels1.unsqueeze(1)
             labels2 = labels2.unsqueeze(1)
             # label1, label2 -> (bs, 1, 512, 512)
+
+            clouds1 = clouds1.unsqueeze(1)
+            clouds2 = clouds2.unsqueeze(1)
+            # clouds1, clouds2 -> (bs, 1, 512, 512)
             h, w = labels1.size(2), labels1.size(3)
             
             if ph != h or pw != w:
