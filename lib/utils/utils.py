@@ -25,6 +25,11 @@ import torch.nn as nn
 # flag = 1 -> tcr version 2 (add cloud information)
 flag = 1
 
+# loss_flag for loss function
+# loss_flag = 0 -> l2 version
+# loss_flag = 1 -> cosine similarity version
+loss_flag = 1
+
 class FullModel(nn.Module):
     """
     Distribute the loss on multi-gpu to reduce 
@@ -103,9 +108,29 @@ class FullModel(nn.Module):
                 score_tcr2 = F.interpolate(input=score_tcr2, size=
                     (h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
 
-            tcr_loss_01 = torch.mean(-torch.square(score_tcr1 - score_tcr2) * torch.abs(labels1 - labels2) * torch.clamp(1 - clouds1 - clouds2, min=0))
-            tcr_loss_00 = torch.mean(torch.square(score_tcr1 - score_tcr2) * torch.clamp(1 - labels1 - labels2, min=0) * torch.clamp(1 - clouds1 - clouds2, min=0))
-            tcr_loss_11 = torch.mean(torch.square(score_tcr1 - score_tcr2) * torch.clamp(labels1 + labels2 - 1, min=0) * torch.clamp(1 - clouds1 - clouds2, min=0))
+            if loss_flag == 0:
+                tcr_loss_01 = torch.mean(-torch.square(score_tcr1 - score_tcr2) * torch.abs(labels1 - labels2) * torch.clamp(1 - clouds1 - clouds2, min=0))
+                tcr_loss_00 = torch.mean(torch.square(score_tcr1 - score_tcr2) * torch.clamp(1 - labels1 - labels2, min=0) * torch.clamp(1 - clouds1 - clouds2, min=0))
+                tcr_loss_11 = torch.mean(torch.square(score_tcr1 - score_tcr2) * torch.clamp(labels1 + labels2 - 1, min=0) * torch.clamp(1 - clouds1 - clouds2, min=0))
+            elif loss_flag == 1:
+                def cosine_similarity(tensor1, tensor2, tensor3, tensor4, eps=1e-08):
+                    """
+                    tensor1: feature map 1
+                    tensor2: feature map 2
+                    tensor3: label information
+                    tensor4: cloud information
+                    """
+                    a = torch.flatten(tensor1, start_dim=1)
+                    b = torch.flatten(tensor2 * tensor3 * tensor4, start_dim=1)
+                    cos = nn.CosineSimilarity(dim=1, eps=1e-08)
+                    return cos(a, b)
+
+                # cosine_similarity: 1 (most similar)
+                # tcr_loss_01: maximize dissimilarity (min similarity)
+                tcr_loss_01 = torch.mean(cosine_similarity(score_tcr1, score_tcr2, torch.abs(labels1 - labels2), torch.clamp(1 - clouds1 - clouds2, min=0)))
+                # tcr_loss_00, tcr_loss_11: maximize similarity
+                tcr_loss_00 = torch.mean(-cosine_similarity(score_tcr1, score_tcr2, torch.clamp(1 - labels1 - labels2, min=0), torch.clamp(1 - clouds1 - clouds2, min=0)))
+                tcr_loss_11 = torch.mean(-cosine_similarity(score_tcr1, score_tcr2, torch.clamp(labels1 + labels2 - 1, min=0), torch.clamp(1 - clouds1 - clouds2, min=0)))
 
             return torch.unsqueeze(ce_loss, 0), torch.unsqueeze(tcr_loss_01, 0), torch.unsqueeze(tcr_loss_00, 0), torch.unsqueeze(tcr_loss_11, 0), outputs1
 
