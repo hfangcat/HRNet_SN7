@@ -52,6 +52,11 @@ _C.LOSS.OHEMTHRES = 0.9
 _C.LOSS.OHEMKEEP = 100000
 _C.LOSS.CLASS_BALANCE = False
 _C.LOSS.BALANCE_WEIGHTS = [1]
+# weight hyperparameters for CE_loss and TCR_loss
+_C.LOSS.WEIGHT_CE = 0.1
+_C.LOSS.WEIGHT_TCR_01 = 0.8
+_C.LOSS.WEIGHT_TCR_00 = 0.1
+_C.LOSS.WEIGHT_TCR_11 = 0.1
 
 # DATASET related params
 _C.DATASET = CN()

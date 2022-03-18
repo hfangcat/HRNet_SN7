@@ -1,0 +1,1098 @@
+Sat Mar  5 01:45:16 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 470.82.01    Driver Version: 470.82.01    CUDA Version: 11.4     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA A100-SXM...  On   | 00000000:07:00.0 Off |                    0 |
+| N/A   27C    P0    53W / 400W |      0MiB / 40536MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   1  NVIDIA A100-SXM...  On   | 00000000:0F:00.0 Off |                    0 |
+| N/A   27C    P0    54W / 400W |      0MiB / 40536MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   2  NVIDIA A100-SXM...  On   | 00000000:47:00.0 Off |                    0 |
+| N/A   29C    P0    53W / 400W |      0MiB / 40536MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   3  NVIDIA A100-SXM...  On   | 00000000:4E:00.0 Off |                    0 |
+| N/A   29C    P0    53W / 400W |      0MiB / 40536MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   4  NVIDIA A100-SXM...  On   | 00000000:87:00.0 Off |                    0 |
+| N/A   31C    P0    53W / 400W |      0MiB / 40536MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   5  NVIDIA A100-SXM...  On   | 00000000:90:00.0 Off |                    0 |
+| N/A   31C    P0    51W / 400W |      0MiB / 40536MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   6  NVIDIA A100-SXM...  On   | 00000000:B7:00.0 Off |                    0 |
+| N/A   33C    P0    52W / 400W |      0MiB / 40536MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   7  NVIDIA A100-SXM...  On   | 00000000:BD:00.0 Off |                    0 |
+| N/A   32C    P0    54W / 400W |      0MiB / 40536MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+***************************************************
+You have loaded an anaconda module
+***************************************************
+
+JUST LOADING THIS MODULE DOES *NOT* CHANGE THE PYTHON VERSION, NOR ENABLES ANY
+EXTRA PYTHON MODULES.
+
+This module makes available the 'conda' command, with which users can create
+named anaconda environments and then activate them.
+
+To create and use a customized environment use 'conda create ...' and
+then 'conda activate ...' (see example below).
+
+---------------------------------------------------------------------------------------------------
+NOTE: NSC strongly advices against placing 'conda activate' (with or without
+arguments)
+      in your shell initialization files, (e.g. '.bashrc' or '.bash_profile')
+since this
+      severly alters the environment for running software in ways that cause
+unpredictable
+      issues that can be difficult to diagnose.
+---------------------------------------------------------------------------------------------------
+
+Example usage:
+
+  * Setting up a customized Anaconda environment and run a Python program in
+it:
+
+    conda create -n myenv python=3.8 scipy=1.5.2
+    conda activate myenv
+    python my_scipy_python_program.py
+
+  * To run the python program in the same environment when logging in the next
+time:
+
+    conda activate myenv
+    python my_scipy_python_program.py
+
+More details on Anaconda environment management here:
+
+
+https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html
+
+
+
+Seeding with 304
+=> creating /proj/berzelius-2021-54/users/HRNet_SN7_output/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train
+Seeding with 304
+=> creating /proj/berzelius-2021-54/users/HRNet_SN7_output/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train
+=> creating berzelius_log/spacenet7/seg_hrnet/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train_2022-03-05-01-45
+=> creating berzelius_log/spacenet7/seg_hrnet/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train_2022-03-05-01-45
+Seeding with 304
+Namespace(cfg='experiments/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train.yaml', local_rank=3, opts=[], seed=304)
+Namespace(cfg='experiments/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train.yaml', local_rank=4, opts=[], seed=304)
+=> creating /proj/berzelius-2021-54/users/HRNet_SN7_output/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train
+=> creating berzelius_log/spacenet7/seg_hrnet/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train_2022-03-05-01-45
+AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: spacenet7
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 2
+  ROOT: /proj/berzelius-2021-54/users/sn7_winner_split/train/
+  TEST_SET: list/val.lst
+  TRAIN_SET: list/train.lst
+DEBUG:
+  DEBUG: False
+  SAVE_BATCH_IMAGES_GT: False
+  SAVE_BATCH_IMAGES_PRED: False
+  SAVE_HEATMAPS_GT: False
+  SAVE_HEATMAPS_PRED: False
+GPUS: (0, 1, 2, 3, 4, 5, 6, 7)
+LOG_DIR: berzelius_log
+LOSS:
+  BALANCE_WEIGHTS: [1]
+  CLASS_BALANCE: False
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.9
+  USE_OHEM: False
+MODEL:
+  ALIGN_CORNERS: True
+  EXTRA:
+    FINAL_CONV_KERNEL: 1
+    STAGE1:
+      BLOCK: BOTTLENECK
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4]
+      NUM_CHANNELS: [64]
+      NUM_MODULES: 1
+      NUM_RANCHES: 1
+    STAGE2:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4]
+      NUM_BRANCHES: 2
+      NUM_CHANNELS: [48, 96]
+      NUM_MODULES: 1
+    STAGE3:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4]
+      NUM_BRANCHES: 3
+      NUM_CHANNELS: [48, 96, 192]
+      NUM_MODULES: 4
+    STAGE4:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4, 4]
+      NUM_BRANCHES: 4
+      NUM_CHANNELS: [48, 96, 192, 384]
+      NUM_MODULES: 3
+  NAME: seg_hrnet
+  NUM_OUTPUTS: 1
+  OCR:
+    DROPOUT: 0.05
+    KEY_CHANNELS: 256
+    MID_CHANNELS: 512
+    SCALE: 1
+  PRETRAINED: /proj/berzelius-2021-54/users/pretrained_models/hrnetv2_w48_imagenet_pretrained.pth
+OUTPUT_DIR: /proj/berzelius-2021-54/users/HRNet_SN7_output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+RANK: 0
+TEST:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 1
+  FLIP_TEST: False
+  IMAGE_SIZE: [512, 512]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  NUM_SAMPLES: 1000
+  OUTPUT_INDEX: -1
+  SCALE_LIST: [1]
+TRAIN:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 6
+  BEGIN_EPOCH: 0
+  DOWNSAMPLERATE: 1
+  END_EPOCH: 200
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  FREEZE_EPOCHS: -1
+  FREEZE_LAYERS: 
+  IGNORE_LABEL: -1
+  IMAGE_SIZE: [512, 512]
+  LR: 0.001
+  LR_FACTOR: 0.1
+  LR_STEP: [90, 110]
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  NONBACKBONE_KEYWORDS: []
+  NONBACKBONE_MULT: 10
+  NUM_SAMPLES: 0
+  OPTIMIZER: sgd
+  RANDOM_BRIGHTNESS: False
+  RANDOM_BRIGHTNESS_SHIFT_VALUE: 10
+  RESUME: True
+  SCALE_FACTOR: 16
+  SHUFFLE: True
+  WD: 0.0001
+WORKERS: 1
+AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: spacenet7
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 2
+  ROOT: /proj/berzelius-2021-54/users/sn7_winner_split/train/
+  TEST_SET: list/val.lst
+  TRAIN_SET: list/train.lst
+DEBUG:
+  DEBUG: False
+  SAVE_BATCH_IMAGES_GT: False
+  SAVE_BATCH_IMAGES_PRED: False
+  SAVE_HEATMAPS_GT: False
+  SAVE_HEATMAPS_PRED: False
+GPUS: (0, 1, 2, 3, 4, 5, 6, 7)
+LOG_DIR: berzelius_log
+LOSS:
+  BALANCE_WEIGHTS: [1]
+  CLASS_BALANCE: False
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.9
+  USE_OHEM: False
+MODEL:
+  ALIGN_CORNERS: True
+  EXTRA:
+    FINAL_CONV_KERNEL: 1
+    STAGE1:
+      BLOCK: BOTTLENECK
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4]
+      NUM_CHANNELS: [64]
+      NUM_MODULES: 1
+      NUM_RANCHES: 1
+    STAGE2:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4]
+      NUM_BRANCHES: 2
+      NUM_CHANNELS: [48, 96]
+      NUM_MODULES: 1
+    STAGE3:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4]
+      NUM_BRANCHES: 3
+      NUM_CHANNELS: [48, 96, 192]
+      NUM_MODULES: 4
+    STAGE4:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4, 4]
+      NUM_BRANCHES: 4
+      NUM_CHANNELS: [48, 96, 192, 384]
+      NUM_MODULES: 3
+  NAME: seg_hrnet
+  NUM_OUTPUTS: 1
+  OCR:
+    DROPOUT: 0.05
+    KEY_CHANNELS: 256
+    MID_CHANNELS: 512
+    SCALE: 1
+  PRETRAINED: /proj/berzelius-2021-54/users/pretrained_models/hrnetv2_w48_imagenet_pretrained.pth
+OUTPUT_DIR: /proj/berzelius-2021-54/users/HRNet_SN7_output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+RANK: 0
+TEST:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 1
+  FLIP_TEST: False
+  IMAGE_SIZE: [512, 512]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  NUM_SAMPLES: 1000
+  OUTPUT_INDEX: -1
+  SCALE_LIST: [1]
+TRAIN:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 6
+  BEGIN_EPOCH: 0
+  DOWNSAMPLERATE: 1
+  END_EPOCH: 200
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  FREEZE_EPOCHS: -1
+  FREEZE_LAYERS: 
+  IGNORE_LABEL: -1
+  IMAGE_SIZE: [512, 512]
+  LR: 0.001
+  LR_FACTOR: 0.1
+  LR_STEP: [90, 110]
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  NONBACKBONE_KEYWORDS: []
+  NONBACKBONE_MULT: 10
+  NUM_SAMPLES: 0
+  OPTIMIZER: sgd
+  RANDOM_BRIGHTNESS: False
+  RANDOM_BRIGHTNESS_SHIFT_VALUE: 10
+  RESUME: True
+  SCALE_FACTOR: 16
+  SHUFFLE: True
+  WD: 0.0001
+WORKERS: 1
+Namespace(cfg='experiments/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train.yaml', local_rank=0, opts=[], seed=304)
+AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: spacenet7
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 2
+  ROOT: /proj/berzelius-2021-54/users/sn7_winner_split/train/
+  TEST_SET: list/val.lst
+  TRAIN_SET: list/train.lst
+DEBUG:
+  DEBUG: False
+  SAVE_BATCH_IMAGES_GT: False
+  SAVE_BATCH_IMAGES_PRED: False
+  SAVE_HEATMAPS_GT: False
+  SAVE_HEATMAPS_PRED: False
+GPUS: (0, 1, 2, 3, 4, 5, 6, 7)
+LOG_DIR: berzelius_log
+LOSS:
+  BALANCE_WEIGHTS: [1]
+  CLASS_BALANCE: False
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.9
+  USE_OHEM: False
+MODEL:
+  ALIGN_CORNERS: True
+  EXTRA:
+    FINAL_CONV_KERNEL: 1
+    STAGE1:
+      BLOCK: BOTTLENECK
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4]
+      NUM_CHANNELS: [64]
+      NUM_MODULES: 1
+      NUM_RANCHES: 1
+    STAGE2:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4]
+      NUM_BRANCHES: 2
+      NUM_CHANNELS: [48, 96]
+      NUM_MODULES: 1
+    STAGE3:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4]
+      NUM_BRANCHES: 3
+      NUM_CHANNELS: [48, 96, 192]
+      NUM_MODULES: 4
+    STAGE4:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4, 4]
+      NUM_BRANCHES: 4
+      NUM_CHANNELS: [48, 96, 192, 384]
+      NUM_MODULES: 3
+  NAME: seg_hrnet
+  NUM_OUTPUTS: 1
+  OCR:
+    DROPOUT: 0.05
+    KEY_CHANNELS: 256
+    MID_CHANNELS: 512
+    SCALE: 1
+  PRETRAINED: /proj/berzelius-2021-54/users/pretrained_models/hrnetv2_w48_imagenet_pretrained.pth
+OUTPUT_DIR: /proj/berzelius-2021-54/users/HRNet_SN7_output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+RANK: 0
+TEST:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 1
+  FLIP_TEST: False
+  IMAGE_SIZE: [512, 512]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  NUM_SAMPLES: 1000
+  OUTPUT_INDEX: -1
+  SCALE_LIST: [1]
+TRAIN:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 6
+  BEGIN_EPOCH: 0
+  DOWNSAMPLERATE: 1
+  END_EPOCH: 200
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  FREEZE_EPOCHS: -1
+  FREEZE_LAYERS: 
+  IGNORE_LABEL: -1
+  IMAGE_SIZE: [512, 512]
+  LR: 0.001
+  LR_FACTOR: 0.1
+  LR_STEP: [90, 110]
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  NONBACKBONE_KEYWORDS: []
+  NONBACKBONE_MULT: 10
+  NUM_SAMPLES: 0
+  OPTIMIZER: sgd
+  RANDOM_BRIGHTNESS: False
+  RANDOM_BRIGHTNESS_SHIFT_VALUE: 10
+  RESUME: True
+  SCALE_FACTOR: 16
+  SHUFFLE: True
+  WD: 0.0001
+WORKERS: 1
+Seeding with 304
+=> creating /proj/berzelius-2021-54/users/HRNet_SN7_output/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train
+=> creating berzelius_log/spacenet7/seg_hrnet/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train_2022-03-05-01-45
+Namespace(cfg='experiments/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train.yaml', local_rank=2, opts=[], seed=304)
+AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: spacenet7
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 2
+  ROOT: /proj/berzelius-2021-54/users/sn7_winner_split/train/
+  TEST_SET: list/val.lst
+  TRAIN_SET: list/train.lst
+DEBUG:
+  DEBUG: False
+  SAVE_BATCH_IMAGES_GT: False
+  SAVE_BATCH_IMAGES_PRED: False
+  SAVE_HEATMAPS_GT: False
+  SAVE_HEATMAPS_PRED: False
+GPUS: (0, 1, 2, 3, 4, 5, 6, 7)
+LOG_DIR: berzelius_log
+LOSS:
+  BALANCE_WEIGHTS: [1]
+  CLASS_BALANCE: False
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.9
+  USE_OHEM: False
+MODEL:
+  ALIGN_CORNERS: True
+  EXTRA:
+    FINAL_CONV_KERNEL: 1
+    STAGE1:
+      BLOCK: BOTTLENECK
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4]
+      NUM_CHANNELS: [64]
+      NUM_MODULES: 1
+      NUM_RANCHES: 1
+    STAGE2:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4]
+      NUM_BRANCHES: 2
+      NUM_CHANNELS: [48, 96]
+      NUM_MODULES: 1
+    STAGE3:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4]
+      NUM_BRANCHES: 3
+      NUM_CHANNELS: [48, 96, 192]
+      NUM_MODULES: 4
+    STAGE4:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4, 4]
+      NUM_BRANCHES: 4
+      NUM_CHANNELS: [48, 96, 192, 384]
+      NUM_MODULES: 3
+  NAME: seg_hrnet
+  NUM_OUTPUTS: 1
+  OCR:
+    DROPOUT: 0.05
+    KEY_CHANNELS: 256
+    MID_CHANNELS: 512
+    SCALE: 1
+  PRETRAINED: /proj/berzelius-2021-54/users/pretrained_models/hrnetv2_w48_imagenet_pretrained.pth
+OUTPUT_DIR: /proj/berzelius-2021-54/users/HRNet_SN7_output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+RANK: 0
+TEST:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 1
+  FLIP_TEST: False
+  IMAGE_SIZE: [512, 512]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  NUM_SAMPLES: 1000
+  OUTPUT_INDEX: -1
+  SCALE_LIST: [1]
+TRAIN:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 6
+  BEGIN_EPOCH: 0
+  DOWNSAMPLERATE: 1
+  END_EPOCH: 200
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  FREEZE_EPOCHS: -1
+  FREEZE_LAYERS: 
+  IGNORE_LABEL: -1
+  IMAGE_SIZE: [512, 512]
+  LR: 0.001
+  LR_FACTOR: 0.1
+  LR_STEP: [90, 110]
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  NONBACKBONE_KEYWORDS: []
+  NONBACKBONE_MULT: 10
+  NUM_SAMPLES: 0
+  OPTIMIZER: sgd
+  RANDOM_BRIGHTNESS: False
+  RANDOM_BRIGHTNESS_SHIFT_VALUE: 10
+  RESUME: True
+  SCALE_FACTOR: 16
+  SHUFFLE: True
+  WD: 0.0001
+WORKERS: 1
+Seeding withSeeding with  304304
+
+=> creating /proj/berzelius-2021-54/users/HRNet_SN7_output/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train
+=> creating /proj/berzelius-2021-54/users/HRNet_SN7_output/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train
+=> creating berzelius_log/spacenet7/seg_hrnet/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train_2022-03-05-01-45
+=> creating berzelius_log/spacenet7/seg_hrnet/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train_2022-03-05-01-45
+Namespace(cfg='experiments/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train.yaml', local_rank=6, opts=[], seed=304)
+Namespace(cfg='experiments/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train.yaml', local_rank=5, opts=[], seed=304)
+AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: spacenet7
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 2
+  ROOT: /proj/berzelius-2021-54/users/sn7_winner_split/train/
+  TEST_SET: list/val.lst
+  TRAIN_SET: list/train.lst
+DEBUG:
+  DEBUG: False
+  SAVE_BATCH_IMAGES_GT: False
+  SAVE_BATCH_IMAGES_PRED: False
+  SAVE_HEATMAPS_GT: False
+  SAVE_HEATMAPS_PRED: False
+GPUS: (0, 1, 2, 3, 4, 5, 6, 7)
+LOG_DIR: berzelius_log
+LOSS:
+  BALANCE_WEIGHTS: [1]
+  CLASS_BALANCE: False
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.9
+  USE_OHEM: False
+MODEL:
+  ALIGN_CORNERS: True
+  EXTRA:
+    FINAL_CONV_KERNEL: 1
+    STAGE1:
+      BLOCK: BOTTLENECK
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4]
+      NUM_CHANNELS: [64]
+      NUM_MODULES: 1
+      NUM_RANCHES: 1
+    STAGE2:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4]
+      NUM_BRANCHES: 2
+      NUM_CHANNELS: [48, 96]
+      NUM_MODULES: 1
+    STAGE3:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4]
+      NUM_BRANCHES: 3
+      NUM_CHANNELS: [48, 96, 192]
+      NUM_MODULES: 4
+    STAGE4:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4, 4]
+      NUM_BRANCHES: 4
+      NUM_CHANNELS: [48, 96, 192, 384]
+      NUM_MODULES: 3
+  NAME: seg_hrnet
+  NUM_OUTPUTS: 1
+  OCR:
+    DROPOUT: 0.05
+    KEY_CHANNELS: 256
+    MID_CHANNELS: 512
+    SCALE: 1
+  PRETRAINED: /proj/berzelius-2021-54/users/pretrained_models/hrnetv2_w48_imagenet_pretrained.pth
+OUTPUT_DIR: /proj/berzelius-2021-54/users/HRNet_SN7_output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+RANK: 0
+TEST:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 1
+  FLIP_TEST: False
+  IMAGE_SIZE: [512, 512]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  NUM_SAMPLES: 1000
+  OUTPUT_INDEX: -1
+  SCALE_LIST: [1]
+TRAIN:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 6
+  BEGIN_EPOCH: 0
+  DOWNSAMPLERATE: 1
+  END_EPOCH: 200
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  FREEZE_EPOCHS: -1
+  FREEZE_LAYERS: 
+  IGNORE_LABEL: -1
+  IMAGE_SIZE: [512, 512]
+  LR: 0.001
+  LR_FACTOR: 0.1
+  LR_STEP: [90, 110]
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  NONBACKBONE_KEYWORDS: []
+  NONBACKBONE_MULT: 10
+  NUM_SAMPLES: 0
+  OPTIMIZER: sgd
+  RANDOM_BRIGHTNESS: False
+  RANDOM_BRIGHTNESS_SHIFT_VALUE: 10
+  RESUME: True
+  SCALE_FACTOR: 16
+  SHUFFLE: True
+  WD: 0.0001
+WORKERS: 1
+AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: spacenet7
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 2
+  ROOT: /proj/berzelius-2021-54/users/sn7_winner_split/train/
+  TEST_SET: list/val.lst
+  TRAIN_SET: list/train.lst
+DEBUG:
+  DEBUG: False
+  SAVE_BATCH_IMAGES_GT: False
+  SAVE_BATCH_IMAGES_PRED: False
+  SAVE_HEATMAPS_GT: False
+  SAVE_HEATMAPS_PRED: False
+GPUS: (0, 1, 2, 3, 4, 5, 6, 7)
+LOG_DIR: berzelius_log
+LOSS:
+  BALANCE_WEIGHTS: [1]
+  CLASS_BALANCE: False
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.9
+  USE_OHEM: False
+MODEL:
+  ALIGN_CORNERS: True
+  EXTRA:
+    FINAL_CONV_KERNEL: 1
+    STAGE1:
+      BLOCK: BOTTLENECK
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4]
+      NUM_CHANNELS: [64]
+      NUM_MODULES: 1
+      NUM_RANCHES: 1
+    STAGE2:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4]
+      NUM_BRANCHES: 2
+      NUM_CHANNELS: [48, 96]
+      NUM_MODULES: 1
+    STAGE3:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4]
+      NUM_BRANCHES: 3
+      NUM_CHANNELS: [48, 96, 192]
+      NUM_MODULES: 4
+    STAGE4:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4, 4]
+      NUM_BRANCHES: 4
+      NUM_CHANNELS: [48, 96, 192, 384]
+      NUM_MODULES: 3
+  NAME: seg_hrnet
+  NUM_OUTPUTS: 1
+  OCR:
+    DROPOUT: 0.05
+    KEY_CHANNELS: 256
+    MID_CHANNELS: 512
+    SCALE: 1
+  PRETRAINED: /proj/berzelius-2021-54/users/pretrained_models/hrnetv2_w48_imagenet_pretrained.pth
+OUTPUT_DIR: /proj/berzelius-2021-54/users/HRNet_SN7_output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+RANK: 0
+TEST:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 1
+  FLIP_TEST: False
+  IMAGE_SIZE: [512, 512]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  NUM_SAMPLES: 1000
+  OUTPUT_INDEX: -1
+  SCALE_LIST: [1]
+TRAIN:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 6
+  BEGIN_EPOCH: 0
+  DOWNSAMPLERATE: 1
+  END_EPOCH: 200
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  FREEZE_EPOCHS: -1
+  FREEZE_LAYERS: 
+  IGNORE_LABEL: -1
+  IMAGE_SIZE: [512, 512]
+  LR: 0.001
+  LR_FACTOR: 0.1
+  LR_STEP: [90, 110]
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  NONBACKBONE_KEYWORDS: []
+  NONBACKBONE_MULT: 10
+  NUM_SAMPLES: 0
+  OPTIMIZER: sgd
+  RANDOM_BRIGHTNESS: False
+  RANDOM_BRIGHTNESS_SHIFT_VALUE: 10
+  RESUME: True
+  SCALE_FACTOR: 16
+  SHUFFLE: True
+  WD: 0.0001
+WORKERS: 1
+Seeding with 304
+Seeding with 304
+Traceback (most recent call last):
+  File "tools/train.py", line 323, in <module>
+=> creating /proj/berzelius-2021-54/users/HRNet_SN7_output/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train
+=> creating berzelius_log/spacenet7/seg_hrnet/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train_2022-03-05-01-45
+    main()
+  File "tools/train.py", line 92, in main
+=> creating /proj/berzelius-2021-54/users/HRNet_SN7_output/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train
+Namespace(cfg='experiments/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train.yaml', local_rank=1, opts=[], seed=304)
+    torch.cuda.set_device(device)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/cuda/__init__.py", line 263, in set_device
+=> creating berzelius_log/spacenet7/seg_hrnet/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train_2022-03-05-01-45
+Namespace(cfg='experiments/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train.yaml', local_rank=7, opts=[], seed=304)
+    torch._C._cuda_setDevice(device)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: spacenet7
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 2
+  ROOT: /proj/berzelius-2021-54/users/sn7_winner_split/train/
+  TEST_SET: list/val.lst
+  TRAIN_SET: list/train.lst
+DEBUG:
+  DEBUG: False
+  SAVE_BATCH_IMAGES_GT: False
+  SAVE_BATCH_IMAGES_PRED: False
+  SAVE_HEATMAPS_GT: False
+  SAVE_HEATMAPS_PRED: False
+GPUS: (0, 1, 2, 3, 4, 5, 6, 7)
+LOG_DIR: berzelius_log
+LOSS:
+  BALANCE_WEIGHTS: [1]
+  CLASS_BALANCE: False
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.9
+  USE_OHEM: False
+MODEL:
+  ALIGN_CORNERS: True
+  EXTRA:
+    FINAL_CONV_KERNEL: 1
+    STAGE1:
+      BLOCK: BOTTLENECK
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4]
+      NUM_CHANNELS: [64]
+      NUM_MODULES: 1
+      NUM_RANCHES: 1
+    STAGE2:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4]
+      NUM_BRANCHES: 2
+      NUM_CHANNELS: [48, 96]
+      NUM_MODULES: 1
+    STAGE3:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4]
+      NUM_BRANCHES: 3
+      NUM_CHANNELS: [48, 96, 192]
+      NUM_MODULES: 4
+    STAGE4:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4, 4]
+      NUM_BRANCHES: 4
+      NUM_CHANNELS: [48, 96, 192, 384]
+      NUM_MODULES: 3
+  NAME: seg_hrnet
+  NUM_OUTPUTS: 1
+  OCR:
+    DROPOUT: 0.05
+    KEY_CHANNELS: 256
+    MID_CHANNELS: 512
+    SCALE: 1
+  PRETRAINED: /proj/berzelius-2021-54/users/pretrained_models/hrnetv2_w48_imagenet_pretrained.pth
+OUTPUT_DIR: /proj/berzelius-2021-54/users/HRNet_SN7_output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+RANK: 0
+TEST:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 1
+  FLIP_TEST: False
+  IMAGE_SIZE: [512, 512]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  NUM_SAMPLES: 1000
+  OUTPUT_INDEX: -1
+  SCALE_LIST: [1]
+TRAIN:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 6
+  BEGIN_EPOCH: 0
+  DOWNSAMPLERATE: 1
+  END_EPOCH: 200
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  FREEZE_EPOCHS: -1
+  FREEZE_LAYERS: 
+  IGNORE_LABEL: -1
+  IMAGE_SIZE: [512, 512]
+  LR: 0.001
+  LR_FACTOR: 0.1
+  LR_STEP: [90, 110]
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  NONBACKBONE_KEYWORDS: []
+  NONBACKBONE_MULT: 10
+  NUM_SAMPLES: 0
+  OPTIMIZER: sgd
+  RANDOM_BRIGHTNESS: False
+  RANDOM_BRIGHTNESS_SHIFT_VALUE: 10
+  RESUME: True
+  SCALE_FACTOR: 16
+  SHUFFLE: True
+  WD: 0.0001
+WORKERS: 1
+    torch._C._cuda_init()
+RuntimeError: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero.
+AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: spacenet7
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 2
+  ROOT: /proj/berzelius-2021-54/users/sn7_winner_split/train/
+  TEST_SET: list/val.lst
+  TRAIN_SET: list/train.lst
+DEBUG:
+  DEBUG: False
+  SAVE_BATCH_IMAGES_GT: False
+  SAVE_BATCH_IMAGES_PRED: False
+  SAVE_HEATMAPS_GT: False
+  SAVE_HEATMAPS_PRED: False
+GPUS: (0, 1, 2, 3, 4, 5, 6, 7)
+LOG_DIR: berzelius_log
+LOSS:
+  BALANCE_WEIGHTS: [1]
+  CLASS_BALANCE: False
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.9
+  USE_OHEM: False
+MODEL:
+  ALIGN_CORNERS: True
+  EXTRA:
+    FINAL_CONV_KERNEL: 1
+    STAGE1:
+      BLOCK: BOTTLENECK
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4]
+      NUM_CHANNELS: [64]
+      NUM_MODULES: 1
+      NUM_RANCHES: 1
+    STAGE2:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4]
+      NUM_BRANCHES: 2
+      NUM_CHANNELS: [48, 96]
+      NUM_MODULES: 1
+    STAGE3:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4]
+      NUM_BRANCHES: 3
+      NUM_CHANNELS: [48, 96, 192]
+      NUM_MODULES: 4
+    STAGE4:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [4, 4, 4, 4]
+      NUM_BRANCHES: 4
+      NUM_CHANNELS: [48, 96, 192, 384]
+      NUM_MODULES: 3
+  NAME: seg_hrnet
+  NUM_OUTPUTS: 1
+  OCR:
+    DROPOUT: 0.05
+    KEY_CHANNELS: 256
+    MID_CHANNELS: 512
+    SCALE: 1
+  PRETRAINED: /proj/berzelius-2021-54/users/pretrained_models/hrnetv2_w48_imagenet_pretrained.pth
+OUTPUT_DIR: /proj/berzelius-2021-54/users/HRNet_SN7_output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+RANK: 0
+TEST:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 1
+  FLIP_TEST: False
+  IMAGE_SIZE: [512, 512]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  NUM_SAMPLES: 1000
+  OUTPUT_INDEX: -1
+  SCALE_LIST: [1]
+TRAIN:
+  BASE_SIZE: 512
+  BATCH_SIZE_PER_GPU: 6
+  BEGIN_EPOCH: 0
+  DOWNSAMPLERATE: 1
+  END_EPOCH: 200
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  FREEZE_EPOCHS: -1
+  FREEZE_LAYERS: 
+  IGNORE_LABEL: -1
+  IMAGE_SIZE: [512, 512]
+  LR: 0.001
+  LR_FACTOR: 0.1
+  LR_STEP: [90, 110]
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  NONBACKBONE_KEYWORDS: []
+  NONBACKBONE_MULT: 10
+  NUM_SAMPLES: 0
+  OPTIMIZER: sgd
+  RANDOM_BRIGHTNESS: False
+  RANDOM_BRIGHTNESS_SHIFT_VALUE: 10
+  RESUME: True
+  SCALE_FACTOR: 16
+  SHUFFLE: True
+  WD: 0.0001
+WORKERS: 1
+Traceback (most recent call last):
+  File "tools/train.py", line 323, in <module>
+    main()
+  File "tools/train.py", line 92, in main
+    torch.cuda.set_device(device)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/cuda/__init__.py", line 263, in set_device
+    torch._C._cuda_setDevice(device)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero.
+Traceback (most recent call last):
+  File "tools/train.py", line 323, in <module>
+    main()
+  File "tools/train.py", line 92, in main
+    torch.cuda.set_device(device)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/cuda/__init__.py", line 263, in set_device
+    torch._C._cuda_setDevice(device)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero.
+Traceback (most recent call last):
+  File "tools/train.py", line 323, in <module>
+Traceback (most recent call last):
+  File "tools/train.py", line 323, in <module>
+    main()
+  File "tools/train.py", line 92, in main
+    torch.cuda.set_device(device)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/cuda/__init__.py", line 263, in set_device
+    main()
+      File "tools/train.py", line 92, in main
+torch._C._cuda_setDevice(device)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+    torch.cuda.set_device(device)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/cuda/__init__.py", line 263, in set_device
+    torch._C._cuda_init()
+RuntimeError: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero.
+    torch._C._cuda_setDevice(device)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero.
+Traceback (most recent call last):
+  File "tools/train.py", line 323, in <module>
+Traceback (most recent call last):
+  File "tools/train.py", line 323, in <module>
+    main()
+  File "tools/train.py", line 92, in main
+    main()
+  File "tools/train.py", line 92, in main
+    torch.cuda.set_device(device)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/cuda/__init__.py", line 263, in set_device
+    torch.cuda.set_device(device)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/cuda/__init__.py", line 263, in set_device
+    torch._C._cuda_setDevice(device)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+    torch._C._cuda_setDevice(device)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero.
+    torch._C._cuda_init()
+RuntimeError: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero.
+Traceback (most recent call last):
+  File "tools/train.py", line 323, in <module>
+    main()
+  File "tools/train.py", line 92, in main
+    torch.cuda.set_device(device)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/cuda/__init__.py", line 263, in set_device
+    torch._C._cuda_setDevice(device)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero.
+Traceback (most recent call last):
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/runpy.py", line 193, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/distributed/launch.py", line 260, in <module>
+    main()
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/distributed/launch.py", line 256, in main
+    cmd=cmd)
+subprocess.CalledProcessError: Command '['/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/bin/python', '-u', 'tools/train.py', '--local_rank=7', '--cfg', 'experiments/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_08_theta2_01_theta3_01_train.yaml']' returned non-zero exit status 1.
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************

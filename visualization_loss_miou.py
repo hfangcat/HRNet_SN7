@@ -4,9 +4,15 @@ import os.path as osp
 
 # flag: 0 -> only one slurm-xx.out file
 # flag: 1 -> two slurm-xx.out files (train for twice / extra epoch needed)
-flag = 1
+flag = 0
 
-fullpath = osp.abspath('./slurm-2133611.out')
+# fullpath = osp.abspath('./slurm-2133611.out')
+# fullpath = osp.abspath('./slurm-2838079.out')
+# fullpath = osp.abspath('./slurm-2839189.out')
+# fullpath = osp.abspath('./slurm-2840401.out')
+# fullpath = osp.abspath('./slurm-2945993.out')
+# fullpath = osp.abspath('./slurm-2945996.out')
+fullpath = osp.abspath('./slurm-2945997.out')
 filedir, filename = osp.split(fullpath)
 
 print(fullpath)
@@ -19,6 +25,9 @@ with open(fullpath, 'rb') as f:
         line = f.readline()
         line = line.decode('utf-8')
         if line == 'Done\n':
+        # if line == 'Epoch: [37/140] Iter:[0/801], Time: 1.79, lr: [0.0007586444239954791], Loss: -0.063580, CE_Loss: 0.199045, TCR_01_Loss: 0.007739, TCR_00_Loss: -0.848662, TCR_11_Loss: -0.140852\n':
+        # if line == 'Epoch: [156/200] Iter:[0/801], Time: 1.83, lr: [0.00025596489844146203], Loss: 0.000574, CE_Loss: 0.438186, TCR_01_Loss: 0.096436, TCR_00_Loss: -0.766301, TCR_11_Loss: -0.485684\n':
+        # if line == 'Epoch: [139/200] Iter:[0/801], Time: 1.82, lr: [0.0003434550096617719], Loss: 0.033735, CE_Loss: 0.337352, TCR_01_Loss: 0.000000, TCR_00_Loss: -0.347057, TCR_11_Loss: -0.011869\n':
             break
         if not line.startswith('Epoch: ['):
             continue
@@ -28,7 +37,9 @@ with open(fullpath, 'rb') as f:
         # Example: Epoch: [1/70] Iter:[0/801], Time: 3.34, lr: [0.0009871336250004174], 
         # Loss: 0.120430, CE_Loss: 0.203374, TCR_01_Loss: -0.000289, TCR_00_Loss: 0.036242, TCR_11_Loss: 0.001533
         _, start_epoch = re.search('Epoch: \[', line, flags=0).span()
-        end_epoch, _ = re.search('/70]', line, flags=0).span()
+        # end_epoch, _ = re.search('/70]', line, flags=0).span()
+        # end_epoch, _ = re.search('/140]', line, flags=0).span()
+        end_epoch, _ = re.search('/200]', line, flags=0).span()
         current_epoch = float(line[start_epoch:end_epoch])
         # print(current_epoch)
 
@@ -152,20 +163,27 @@ plt.legend()
 plt.savefig(osp.join(filedir, pngName))
 
 plt.figure(2)
+plt.plot(iters, ce_loss)
+plt.xlabel('iters')
+plt.ylabel('training ce_loss')
+pngName = filename.split('.')[0] + '_ce_loss'
+plt.savefig(osp.join(filedir, pngName))
+
+plt.figure(3)
 plt.plot(iters, tcr_01_loss)
 plt.xlabel('iters')
 plt.ylabel('training tcr_01_loss')
 pngName = filename.split('.')[0] + '_tcr_01_loss'
 plt.savefig(osp.join(filedir, pngName))
 
-plt.figure(3)
+plt.figure(4)
 plt.plot(iters, tcr_00_loss)
 plt.xlabel('iters')
 plt.ylabel('training tcr_00_loss')
 pngName = filename.split('.')[0] + '_tcr_00_loss'
 plt.savefig(osp.join(filedir, pngName))
 
-plt.figure(4)
+plt.figure(5)
 plt.plot(iters, tcr_11_loss)
 plt.xlabel('iters')
 plt.ylabel('training tcr_11_loss')
@@ -180,6 +198,9 @@ with open(fullpath, 'rb') as f:
         line = f.readline()
         line = line.decode('utf-8')
         if line == 'Done\n':
+        # if line == 'Epoch: [37/140] Iter:[0/801], Time: 1.79, lr: [0.0007586444239954791], Loss: -0.063580, CE_Loss: 0.199045, TCR_01_Loss: 0.007739, TCR_00_Loss: -0.848662, TCR_11_Loss: -0.140852\n':
+        # if line == 'Epoch: [156/200] Iter:[0/801], Time: 1.83, lr: [0.00025596489844146203], Loss: 0.000574, CE_Loss: 0.438186, TCR_01_Loss: 0.096436, TCR_00_Loss: -0.766301, TCR_11_Loss: -0.485684\n':
+        # if line == 'Epoch: [139/200] Iter:[0/801], Time: 1.82, lr: [0.0003434550096617719], Loss: 0.033735, CE_Loss: 0.337352, TCR_01_Loss: 0.000000, TCR_00_Loss: -0.347057, TCR_11_Loss: -0.011869\n':
             break
         if not line.startswith('Loss: '):
             continue
@@ -234,14 +255,14 @@ if flag == 1:
 
             epoch += 1
 
-plt.figure(5)
+plt.figure(6)
 plt.plot(epochs, val_loss)
 plt.xlabel('epochs')
 plt.ylabel('val_loss')
 pngName = filename.split('.')[0] + '_val_loss'
 plt.savefig(osp.join(filedir, pngName))
 
-plt.figure(6)
+plt.figure(7)
 plt.plot(epochs, val_miou)
 plt.xlabel('epochs')
 plt.ylabel('val_miou')

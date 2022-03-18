@@ -155,7 +155,8 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
 
             # show ce_loss, 3 separate tcr_losses
             ce_losses, tcr_01_losses, tcr_00_losses, tcr_11_losses, _ = model(images, images1, labels, labels1, clouds, clouds1)
-            losses = alpha * ce_losses + (1 - alpha) * (0.8 * tcr_01_losses + 0.1 * tcr_00_losses + 0.1 * tcr_11_losses)
+            # losses = alpha * ce_losses + (1 - alpha) * (0.8 * tcr_01_losses + 0.1 * tcr_00_losses + 0.1 * tcr_11_losses)
+            losses = config.LOSS.WEIGHT_CE * ce_losses + (1 - config.LOSS.WEIGHT_CE) * (config.LOSS.WEIGHT_TCR_01 * tcr_01_losses + config.LOSS.WEIGHT_TCR_00 * tcr_00_losses + config.LOSS.WEIGHT_TCR_11 * tcr_11_losses)
             ce_loss = ce_losses.mean()
             tcr_01_loss = tcr_01_losses.mean()
             tcr_00_loss = tcr_00_losses.mean()
@@ -264,7 +265,8 @@ def validate(config, testloader, model, writer_dict, alpha=0.1):
                 cloud1 = cloud1.long().cuda()
 
                 ce_losses, tcr_01_losses, tcr_00_losses, tcr_11_losses, pred = model(image, image1, label, label1, cloud, cloud1)
-                losses = alpha * ce_losses + (1 - alpha) * (0.8 * tcr_01_losses + 0.1 * tcr_00_losses + 0.1 * tcr_11_losses)
+                # losses = alpha * ce_losses + (1 - alpha) * (0.8 * tcr_01_losses + 0.1 * tcr_00_losses + 0.1 * tcr_11_losses)
+                losses = config.LOSS.WEIGHT_CE * ce_losses + (1 - config.LOSS.WEIGHT_CE) * (config.LOSS.WEIGHT_TCR_01 * tcr_01_losses + config.LOSS.WEIGHT_TCR_00 * tcr_00_losses + config.LOSS.WEIGHT_TCR_11 * tcr_11_losses)
 
             if not isinstance(pred, (list, tuple)):
                 pred = [pred]

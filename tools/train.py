@@ -239,8 +239,26 @@ def main():
                                 weight_decay=config.TRAIN.WD,
                                 nesterov=config.TRAIN.NESTEROV,
                                 )
+    elif config.TRAIN.OPTIMIZER == 'adam':
+        params_dict = dict(model.named_parameters())
+        if config.TRAIN.NONBACKBONE_KEYWORDS:
+            bb_lr = []
+            nbb_lr = []
+            nbb_keys = set()
+            for k, param in params_dict.items():
+                if any(part in k for part in config.TRAIN.NONBACKBONE_KEYWORDS):
+                    nbb_lr.append(param)
+                    nbb_keys.add(k)
+                else:
+                    bb_lr.append(param)
+            print(nbb_keys)
+            params = [{'params': bb_lr, 'lr': config.TRAIN.LR}, {'params': nbb_lr, 'lr': config.TRAIN.LR * config.TRAIN.NONBACKBONE_MULT}]
+        else:
+            params = [{'params': list(params_dict.values()), 'lr': config.TRAIN.LR}]
+
+        optimizer = torch.optim.Adam(params, lr=config.TRAIN.LR)
     else:
-        raise ValueError('Only Support SGD optimizer')
+        raise ValueError('Only Support SGD and Adam optimizers')
 
     epoch_iters = np.int(train_dataset.__len__() / 
                         config.TRAIN.BATCH_SIZE_PER_GPU / len(gpus))

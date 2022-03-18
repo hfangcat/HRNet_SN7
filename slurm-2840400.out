@@ -1,0 +1,266 @@
+Sat Mar  5 16:50:27 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 470.82.01    Driver Version: 470.82.01    CUDA Version: 11.4     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA A100-SXM...  On   | 00000000:07:00.0 Off |                    0 |
+| N/A   24C    P0    51W / 400W |      0MiB / 40536MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   1  NVIDIA A100-SXM...  On   | 00000000:0F:00.0 Off |                    0 |
+| N/A   23C    P0    50W / 400W |      0MiB / 40536MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   2  NVIDIA A100-SXM...  On   | 00000000:47:00.0 Off |                    0 |
+| N/A   23C    P0    50W / 400W |      0MiB / 40536MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   3  NVIDIA A100-SXM...  On   | 00000000:4E:00.0 Off |                    0 |
+| N/A   24C    P0    52W / 400W |      0MiB / 40536MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   4  NVIDIA A100-SXM...  On   | 00000000:87:00.0 Off |                    0 |
+| N/A   28C    P0    53W / 400W |      0MiB / 40536MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   5  NVIDIA A100-SXM...  On   | 00000000:90:00.0 Off |                    0 |
+| N/A   26C    P0    50W / 400W |      0MiB / 40536MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   6  NVIDIA A100-SXM...  On   | 00000000:B7:00.0 Off |                    0 |
+| N/A   27C    P0    54W / 400W |      0MiB / 40536MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   7  NVIDIA A100-SXM...  On   | 00000000:BD:00.0 Off |                    0 |
+| N/A   28C    P0    52W / 400W |      0MiB / 40536MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+***************************************************
+You have loaded an anaconda module
+***************************************************
+
+JUST LOADING THIS MODULE DOES *NOT* CHANGE THE PYTHON VERSION, NOR ENABLES ANY
+EXTRA PYTHON MODULES.
+
+This module makes available the 'conda' command, with which users can create
+named anaconda environments and then activate them.
+
+To create and use a customized environment use 'conda create ...' and
+then 'conda activate ...' (see example below).
+
+---------------------------------------------------------------------------------------------------
+NOTE: NSC strongly advices against placing 'conda activate' (with or without
+arguments)
+      in your shell initialization files, (e.g. '.bashrc' or '.bash_profile')
+since this
+      severly alters the environment for running software in ways that cause
+unpredictable
+      issues that can be difficult to diagnose.
+---------------------------------------------------------------------------------------------------
+
+Example usage:
+
+  * Setting up a customized Anaconda environment and run a Python program in
+it:
+
+    conda create -n myenv python=3.8 scipy=1.5.2
+    conda activate myenv
+    python my_scipy_python_program.py
+
+  * To run the python program in the same environment when logging in the next
+time:
+
+    conda activate myenv
+    python my_scipy_python_program.py
+
+More details on Anaconda environment management here:
+
+
+https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html
+
+
+
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "tools/train.py", line 323, in <module>
+  File "tools/train.py", line 323, in <module>
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "tools/train.py", line 323, in <module>
+Traceback (most recent call last):
+  File "tools/train.py", line 323, in <module>
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "tools/train.py", line 323, in <module>
+  File "tools/train.py", line 323, in <module>
+  File "tools/train.py", line 323, in <module>
+    main()
+  File "tools/train.py", line 64, in main
+    Traceback (most recent call last):
+main()  File "tools/train.py", line 323, in <module>
+
+      File "tools/train.py", line 64, in main
+args = parse_args()            
+        main()main()main()  File "tools/train.py", line 51, in parse_args
+    main()main()
+
+
+args = parse_args()
+    
+  File "tools/train.py", line 64, in main
+  File "tools/train.py", line 64, in main
+  File "tools/train.py", line 64, in main
+
+  File "tools/train.py", line 64, in main
+main()  File "tools/train.py", line 64, in main
+  File "tools/train.py", line 51, in parse_args
+    
+update_config(config, args)  File "tools/train.py", line 64, in main
+
+  File "/proj/berzelius-2021-54/users/HRNet_SN7/tools/../lib/config/default.py", line 139, in update_config
+                        args = parse_args()    args = parse_args()args = parse_args()cfg.merge_from_file(args.cfg)args = parse_args()args = parse_args()
+update_config(config, args)
+    
+
+
+
+  File "tools/train.py", line 51, in parse_args
+
+  File "tools/train.py", line 51, in parse_args
+args = parse_args()  File "tools/train.py", line 51, in parse_args
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 213, in merge_from_file
+  File "tools/train.py", line 51, in parse_args
+  File "tools/train.py", line 51, in parse_args
+  File "/proj/berzelius-2021-54/users/HRNet_SN7/tools/../lib/config/default.py", line 139, in update_config
+
+  File "tools/train.py", line 51, in parse_args
+    cfg.merge_from_file(args.cfg)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 213, in merge_from_file
+    self.merge_from_other_cfg(cfg)
+              File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 217, in merge_from_other_cfg
+        update_config(config, args)update_config(config, args)update_config(config, args)        update_config(config, args)update_config(config, args)
+
+
+self.merge_from_other_cfg(cfg)update_config(config, args)
+
+  File "/proj/berzelius-2021-54/users/HRNet_SN7/tools/../lib/config/default.py", line 139, in update_config
+  File "/proj/berzelius-2021-54/users/HRNet_SN7/tools/../lib/config/default.py", line 139, in update_config
+  File "/proj/berzelius-2021-54/users/HRNet_SN7/tools/../lib/config/default.py", line 139, in update_config
+
+
+  File "/proj/berzelius-2021-54/users/HRNet_SN7/tools/../lib/config/default.py", line 139, in update_config
+  File "/proj/berzelius-2021-54/users/HRNet_SN7/tools/../lib/config/default.py", line 139, in update_config
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 217, in merge_from_other_cfg
+  File "/proj/berzelius-2021-54/users/HRNet_SN7/tools/../lib/config/default.py", line 139, in update_config
+    _merge_a_into_b(cfg_other, self, self, [])
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 478, in _merge_a_into_b
+    _merge_a_into_b(cfg_other, self, self, [])
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 478, in _merge_a_into_b
+                    cfg.merge_from_file(args.cfg)cfg.merge_from_file(args.cfg)cfg.merge_from_file(args.cfg)cfg.merge_from_file(args.cfg)cfg.merge_from_file(args.cfg)
+
+
+
+
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 213, in merge_from_file
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 213, in merge_from_file
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 213, in merge_from_file
+      File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 213, in merge_from_file
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 213, in merge_from_file
+    cfg.merge_from_file(args.cfg)_merge_a_into_b(v, b[k], root, key_list + [k])
+    
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 213, in merge_from_file
+_merge_a_into_b(v, b[k], root, key_list + [k])  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 474, in _merge_a_into_b
+
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 474, in _merge_a_into_b
+                        self.merge_from_other_cfg(cfg)self.merge_from_other_cfg(cfg)self.merge_from_other_cfg(cfg)self.merge_from_other_cfg(cfg)    self.merge_from_other_cfg(cfg)v = _check_and_coerce_cfg_value_type(v, b[k], k, full_key)
+
+
+
+v = _check_and_coerce_cfg_value_type(v, b[k], k, full_key)
+
+      File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 217, in merge_from_other_cfg
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 217, in merge_from_other_cfg
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 217, in merge_from_other_cfg
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 217, in merge_from_other_cfg
+
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 217, in merge_from_other_cfg
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 537, in _check_and_coerce_cfg_value_type
+self.merge_from_other_cfg(cfg)  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 537, in _check_and_coerce_cfg_value_type
+
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 217, in merge_from_other_cfg
+        _merge_a_into_b(cfg_other, self, self, [])_merge_a_into_b(cfg_other, self, self, [])
+
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 478, in _merge_a_into_b
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 478, in _merge_a_into_b
+            _merge_a_into_b(cfg_other, self, self, [])    _merge_a_into_b(cfg_other, self, self, [])_merge_a_into_b(cfg_other, self, self, [])    
+_merge_a_into_b(cfg_other, self, self, [])    
+
+_merge_a_into_b(v, b[k], root, key_list + [k])  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 478, in _merge_a_into_b
+
+original_type, replacement_type, original, replacement, full_key  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 478, in _merge_a_into_b
+      File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 478, in _merge_a_into_b
+
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 478, in _merge_a_into_b
+
+original_type, replacement_type, original, replacement, full_key  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 474, in _merge_a_into_b
+ValueError    
+: _merge_a_into_b(v, b[k], root, key_list + [k])ValueErrorType mismatch (<class 'float'> vs. <class 'int'>) with values (0.8 vs. 1) for config key: LOSS.WEIGHT_TCR_01
+: 
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 474, in _merge_a_into_b
+Type mismatch (<class 'float'> vs. <class 'int'>) with values (0.8 vs. 1) for config key: LOSS.WEIGHT_TCR_01
+            _merge_a_into_b(v, b[k], root, key_list + [k])_merge_a_into_b(v, b[k], root, key_list + [k])_merge_a_into_b(v, b[k], root, key_list + [k])
+
+        
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 474, in _merge_a_into_b
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 474, in _merge_a_into_b
+_merge_a_into_b(v, b[k], root, key_list + [k])v = _check_and_coerce_cfg_value_type(v, b[k], k, full_key)  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 474, in _merge_a_into_b
+
+
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 474, in _merge_a_into_b
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 537, in _check_and_coerce_cfg_value_type
+    v = _check_and_coerce_cfg_value_type(v, b[k], k, full_key)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 537, in _check_and_coerce_cfg_value_type
+                v = _check_and_coerce_cfg_value_type(v, b[k], k, full_key)original_type, replacement_type, original, replacement, full_keyv = _check_and_coerce_cfg_value_type(v, b[k], k, full_key)v = _check_and_coerce_cfg_value_type(v, b[k], k, full_key)    
+
+
+
+v = _check_and_coerce_cfg_value_type(v, b[k], k, full_key)  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 537, in _check_and_coerce_cfg_value_type
+ValueError  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 537, in _check_and_coerce_cfg_value_type
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 537, in _check_and_coerce_cfg_value_type
+
+:   File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/yacs/config.py", line 537, in _check_and_coerce_cfg_value_type
+Type mismatch (<class 'float'> vs. <class 'int'>) with values (0.8 vs. 1) for config key: LOSS.WEIGHT_TCR_01    
+original_type, replacement_type, original, replacement, full_key
+ValueError: Type mismatch (<class 'float'> vs. <class 'int'>) with values (0.8 vs. 1) for config key: LOSS.WEIGHT_TCR_01
+        original_type, replacement_type, original, replacement, full_keyoriginal_type, replacement_type, original, replacement, full_key
+    
+ValueErrororiginal_type, replacement_type, original, replacement, full_keyValueError: 
+: Type mismatch (<class 'float'> vs. <class 'int'>) with values (0.8 vs. 1) for config key: LOSS.WEIGHT_TCR_01ValueErrorType mismatch (<class 'float'> vs. <class 'int'>) with values (0.8 vs. 1) for config key: LOSS.WEIGHT_TCR_01
+: 
+Type mismatch (<class 'float'> vs. <class 'int'>) with values (0.8 vs. 1) for config key: LOSS.WEIGHT_TCR_01
+    original_type, replacement_type, original, replacement, full_key
+ValueError: Type mismatch (<class 'float'> vs. <class 'int'>) with values (0.8 vs. 1) for config key: LOSS.WEIGHT_TCR_01
+Traceback (most recent call last):
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/runpy.py", line 193, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/distributed/launch.py", line 260, in <module>
+    main()
+  File "/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/lib/python3.7/site-packages/torch/distributed/launch.py", line 256, in main
+    cmd=cmd)
+subprocess.CalledProcessError: Command '['/proj/berzelius-2021-54/users/HRNet-Semantic-Segmentation/mycondaenv/bin/python', '-u', 'tools/train.py', '--local_rank=7', '--cfg', 'experiments/spacenet7/berzelius_seg_hrnet_tcr_version_4_w48_512x512_sgd_lr1e-3_wd1e-4_bs_48_epoch200_alpha_01_theta1_1_theta2_0_theta3_0_train.yaml']' returned non-zero exit status 1.
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
