@@ -317,6 +317,10 @@ def main():
                 'state_dict': model.module.state_dict(),
                 'optimizer': optimizer.state_dict(),
             }, os.path.join(final_output_dir,'checkpoint.pth.tar'))
+            # save models during training
+            if epoch % (2 * config.PRINT_FREQ) == 0:
+                torch.save(model.module.state_dict(),
+                        os.path.join(final_output_dir, 'checkpoint-epoch-{}.pth'.format(epoch)))
             if mean_IoU > best_mIoU:
                 best_mIoU = mean_IoU
                 torch.save(model.module.state_dict(),

@@ -226,6 +226,14 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
 def validate(config, testloader, model, writer_dict, alpha=0.1):
     model.eval()
     ave_loss = AverageMeter()
+
+    # record ave_ce_loss and ave_tcr_loss (separately)
+    if flag == 1:
+        ave_ce_loss = AverageMeter()
+        ave_tcr_01_loss = AverageMeter()
+        ave_tcr_00_loss = AverageMeter()
+        ave_tcr_11_loss = AverageMeter()
+    
     nums = config.MODEL.NUM_OUTPUTS
     confusion_matrix = np.zeros(
         (config.DATASET.NUM_CLASSES, config.DATASET.NUM_CLASSES, nums))
@@ -287,12 +295,50 @@ def validate(config, testloader, model, writer_dict, alpha=0.1):
             if idx % 10 == 0:
                 print(idx)
 
-            loss = losses.mean()
-            if dist.is_distributed():
-                reduced_loss = reduce_tensor(loss)
-            else:
-                reduced_loss = loss
-            ave_loss.update(reduced_loss.item())
+            if flag == 0:
+                loss = losses.mean()
+                if dist.is_distributed():
+                    reduced_loss = reduce_tensor(loss)
+                else:
+                    reduced_loss = loss
+                ave_loss.update(reduced_loss.item())
+            elif flag == 1:
+                ce_loss = ce_losses.mean()
+                tcr_01_loss = tcr_01_losses.mean()
+                tcr_00_loss = tcr_00_losses.mean()
+                tcr_11_loss = tcr_11_losses.mean()
+                loss = losses.mean()
+
+                if dist.is_distributed():
+                    reduced_loss = reduce_tensor(loss)
+                    # record ce_loss and 3 separate tcr_losses
+                    reduced_ce_loss = reduce_tensor(ce_loss)
+                    reduced_tcr_01_loss = reduce_tensor(tcr_01_loss)
+                    reduced_tcr_00_loss = reduce_tensor(tcr_00_loss)
+                    reduced_tcr_11_loss = reduce_tensor(tcr_11_loss)
+                else:
+                    reduced_loss = loss
+                    # record ce_loss and 3 separate tcr_losses
+                    reduced_ce_loss = ce_loss
+                    reduced_tcr_01_loss = tcr_01_loss
+                    reduced_tcr_00_loss = tcr_00_loss
+                    reduced_tcr_11_loss = tcr_11_loss
+
+                # update average loss
+                ave_loss.update(reduced_loss.item())
+
+                # update average ce_loss and 3 separate tcr_losses
+                ave_ce_loss.update(reduced_ce_loss.item())
+                ave_tcr_01_loss.update(reduced_tcr_01_loss.item())
+                ave_tcr_00_loss.update(reduced_tcr_00_loss.item())
+                ave_tcr_11_loss.update(reduced_tcr_11_loss.item())
+
+                if idx % config.PRINT_FREQ == 0 and dist.get_rank() == 0:
+                    # record average ce_loss and 3 separate tcr_losses
+                    msg = 'Validation: Idx:{}, Loss: {:.6f}, CE_Loss: {:.6f}, TCR_01_Loss: {:.6f}, TCR_00_Loss: {:.6f}, TCR_11_Loss: {:.6f}' .format(
+                            idx, ave_loss.average(), ave_ce_loss.average(),
+                            ave_tcr_01_loss.average(), ave_tcr_00_loss.average(), ave_tcr_11_loss.average())
+                    logging.info(msg)
 
     if dist.is_distributed():
         confusion_matrix = torch.from_numpy(confusion_matrix).cuda()
